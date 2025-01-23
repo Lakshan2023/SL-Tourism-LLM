@@ -1,2 +1,2 @@
 # SL-Tourism-LLM
-Sri Lankan Torist LLM
+Sri Lankan Tourist LLM
