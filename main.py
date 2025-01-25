@@ -8,7 +8,7 @@ from routers import chatbot
 app = FastAPI()
 
 # Include routers
-# app.include_router(chatbot.router, prefix="/chatbot", tags=["chatbot"])
+app.include_router(chatbot.router, prefix="/chatbot", tags=["chatbot"])
 
 # Include CORS middleware
 app.add_middleware(
