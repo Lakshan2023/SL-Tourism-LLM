@@ -111,8 +111,8 @@
       "question": "What are all the emergency contact numbers available in Sri Lanka and what services do they provide?",
       "cypher_query": "OPTIONAL MATCH (c:Country {Country: 'Sri Lanka'})\nRETURN \n    c.Suwa_Seriya_Ambulance as Ambulance,\n    c.Police_Emergency_Service as Police,\n    c.Children_Helpline as Children_Emergency,\n    c.Women_Helpline as Women_Emergency,\n    c.Trilingual_Health_Line as Health_Line;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "List accommodations with ratings above 4.5 and their booking links.",
+      "cypher_query": "OPTIONAL MATCH (a:Accomadation)\nWHERE toFloat(a.Rating) > 4.5\nRETURN a.Accommodation_Place_Name AS Accommodation, a.Rating, a.Booking_Com_Booking_Link\nORDER BY a.Rating DESC;"
     },{
       "question": "",
       "cypher_query": ""
