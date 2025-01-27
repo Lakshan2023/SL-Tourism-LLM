@@ -114,56 +114,56 @@
       "question": "List accommodations with ratings above 4.5 and their booking links.",
       "cypher_query": "OPTIONAL MATCH (a:Accomadation)\nWHERE toFloat(a.Rating) > 4.5\nRETURN a.Accommodation_Place_Name AS Accommodation, a.Rating, a.Booking_Com_Booking_Link\nORDER BY a.Rating DESC;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What is the population of Arugam Bay, and in which district is it located?",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Arugam Bay\"})-[:LOCATED_IN]->(d:District)\nRETURN a.Areas AS Area, a.Population AS Population, d.District AS District;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "List all areas located in the Ampara district along with their descriptions.",
+      "cypher_query": "OPTIONAL MATCH (a:Area)-[:LOCATED_IN]->(d:District {District: \"Ampara\"})\nRETURN a.Areas AS Area, a.Description AS Description;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Which areas have a population greater than 50,000, and what are their districts?",
+      "cypher_query": "OPTIONAL MATCH (a:Area)-[:LOCATED_IN]->(d:District)\nWHERE a.Population > 50000\nRETURN a.Areas AS Area, a.Population AS Population, d.District AS District;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What are the top 5 places to visit in Kandy, and what type of activities can be done there?",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Kandy\"})-[:CONSISTED_WITH]->(p:Place)\nRETURN p.Place_To_Visit AS Place, p.Activity_Type AS Activity\nLIMIT 5;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What is the weather description for Nuwara Eliya, and what season is it associated with?",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Nuwara Eliya\"})-[:HAS_WEATHER]->(w:Weather)\nRETURN a.Areas AS Area, w.Description AS Weather_Description, w.Season AS Season;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What are the top-rated accommodations in Arugam Bay, and what are their types?",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Arugam Bay\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE acc.Rating IS NOT NULL\nRETURN acc.Accommodation_Place_Name AS Accommodation, acc.Rating AS Rating, acc.Type AS Type\nORDER BY acc.Rating DESC;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "List all homestays in Kandy along with their descriptions and booking links.",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Kandy\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE acc.Type = \"Homestay\"\nRETURN acc.Accommodation_Place_Name AS Homestay, acc.Description AS Description, acc.Booking_Com_Booking_Link AS Booking_Link;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What are the accommodations in Anuradhapura that offer an outdoor swimming pool?",
+      "cypher_query": "MATCH (a:Area {Areas: \"Anuradhapura\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE acc.Description CONTAINS \"outdoor swimming pool\"\nRETURN acc.Accommodation_Place_Name AS Accommodation, acc.Description AS Description;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Which accommodations in Kataragama are located near Yala National Park?",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Kataragama\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE acc.Nearby_Places CONTAINS \"Yala National Park\"\nRETURN acc.Accommodation_Place_Name AS Accommodation, acc.Booking_Com_Booking_Link AS link, acc.Nearby_Places AS Nearby_Places;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "List all accommodations in Kandy that offer \"mountain views\" in their description.",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Kandy\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE acc.Description CONTAINS \"mountain views\"\nRETURN acc.Accommodation_Place_Name AS Accommodation, acc.Booking_Com_Booking_Link AS linnk, acc.Description AS Description;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What is the rating of the accommodation \"Sound Sleep Resort\" in Arugam Bay?",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Arugam Bay\"})-[:HAS_ACCOMADATION]->(acc:Accomadation {Accommodation_Place_Name: \"Sound Sleep Resort\"})\nRETURN acc.Rating AS Rating;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What type of accommodation is \"The Clovelly Bungalow\" in Nuwara Eliya?",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Nuwara Eliya\"})-[:HAS_ACCOMADATION]->(acc:Accomadation {Accommodation_Place_Name: \"The Clovelly Bungalow\"})\nRETURN acc.Type AS Type;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What is the booking link for the accommodation \"Moon Garden Hotel and Restaurant\"?",
+      "cypher_query": "OPTIONAL MATCH (acc:Accomadation {Accommodation_Place_Name: \"Moon Garden Hotel and Restaurant\"})\nRETURN acc.Booking_Com_Booking_Link AS Booking_Link;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What is the average rating of accommodations in Anuradhapura?",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Anuradhapura\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nRETURN AVG(toFloat(acc.Rating)) AS Average_Rating;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Which accommodations in Kataragama have a rating below 7?",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Kataragama\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE toFloat(acc.Rating) < 7\nRETURN acc.Accommodation_Place_Name AS Accommodation, acc.Rating AS Rating;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Which accommodations in Arugam Bay have a description that mentions \"beach\"?",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Arugam Bay\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE acc.Description CONTAINS \"Beach\"\nRETURN acc.Accommodation_Place_Name AS Accommodation, acc.Description AS Description;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What are the descriptions of accommodations in Kandy that offer \"spa services\"?",
+      "cypher_query": "MATCH (a:Area {Areas: \"Kandy\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE acc.Description CONTAINS \"spa\"\nRETURN acc.Accommodation_Place_Name AS Accommodation, acc.Booking_Com_Booking_Link AS booking_link, acc.Description AS Description;"
     },{
       "question": "",
       "cypher_query": ""

@@ -23,7 +23,8 @@ import ast
 from fastapi import APIRouter, HTTPException
 from pathlib import Path
 from openai import OpenAI
-
+from routers import prompts
+from routers.prompts import db_structure
 
 # In-memory storage for chat histories
 chat_histories: Dict[str, Dict[str, List[str]]] = {}
@@ -57,6 +58,7 @@ username = os.getenv("NEO4J_USERNAME")
 password = os.getenv("NEO4J_PASSWORD")
 openai_api_key = os.getenv("OPENAI_API_KEY")
 deployment = os.getenv("DEPLOYMENT_NAME", "gpt-3.5-turbo")
+db_structure_prompt = db_structure
 
 # Function to connect to Neo4j
 def connect_to_neo4j():
