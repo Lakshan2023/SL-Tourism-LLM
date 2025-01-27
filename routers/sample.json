@@ -78,38 +78,38 @@
       "question": "Retrieve all police stations located in the district of Kandy.",
       "cypher_query": "OPTIONAL MATCH (d:District {District: \"Kandy\"})<-[:LOCATED_IN]-(a:Area)-[:HAS_POLICE]->(p:PoliceStation)\nRETURN p.Nearest_Police_Station AS PoliceStation, p.Contact_Number AS ContactNumber;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": " Which districts have the highest percentage of Sinhalese population?",
+      "cypher_query": "OPTIONAL MATCH (d:District)\nRETURN d.District, d.Sinhalese\nORDER BY toFloat(d.Sinhalese) DESC\nLIMIT 5;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What are the top 5 areas with the highest population?",
+      "cypher_query": "OPTIONAL MATCH (a:Area)\nRETURN a.Areas, a.Population\nORDER BY a.Population DESC\nLIMIT 5;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Which places to visit are located in areas with a population of more than 100,000?\n",
+      "cypher_query": "OPTIONAL MATCH (a:Area)-[:CONSISTED_WITH]->(p:Place)\nWHERE a.Population > 100000\nRETURN p.Place_to_Visit, a.Areas, a.Population;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Find provinces with the most diverse emergency services network",
+      "cypher_query": "OPTIONAL MATCH (p:Province)-[:HAS_DISTRICT]->(d:District)<-[:LOCATED_IN]-(a:Area)\nOPTIONAL MATCH (a)-[:HAS_HOSPITAL]->(h:Hospital)\nOPTIONAL MATCH (a)-[:HAS_POLICE]->(p:PoliceStation)\nWITH p, \n     COUNT(DISTINCT h) as unique_hospitals,\n     COUNT(DISTINCT p) as unique_police_stations,\n     COUNT(DISTINCT a) as covered_areas\nRETURN p.Province, \n       unique_hospitals,\n       unique_police_stations,\n       covered_areas,\n       (unique_hospitals + unique_police_stations) * covered_areas as service_coverage_score\nORDER BY service_coverage_score DESC;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Find areas with matching hospital and police station contact numbers in same district",
+      "cypher_query": "OPTIONAL MATCH (d:District)<-[:LOCATED_IN]-(a:Area)\nOPTIONAL MATCH (a)-[:HAS_HOSPITAL]->(h:Hospital)\nOPTIONAL MATCH (a)-[:HAS_POLICE]->(p:PoliceStation)\nWHERE substring(toString(h.Contact_Number), 0, 3) = \n      substring(toString(p.Contact_Number), 0, 3)\nRETURN d.District, a.Areas, h.Contact_Number AS HospitalNumber, p.Contact_Number AS PoliceNumber;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Find areas with emergency services in districts with high minority populations",
+      "cypher_query": "OPTIONAL MATCH (d:District)<-[:LOCATED_IN]-(a:Area)\nOPTIONAL MATCH (a)-[:HAS_HOSPITAL]->(h:Hospital)\nOPTIONAL MATCH (a)-[:HAS_POLICE]->(p:PoliceStation)\nWHERE toFloat(d.Sri_Lankan_Moors) > 10.0 OR toFloat(d.Indian_Tamils) > 10.0\nRETURN d.District, \n       d.Sri_Lankan_Moors as moors_percentage,\n       d.Indian_Tamils as indian_tamils_percentage,\n       COLLECT(DISTINCT h.Nearest_Hospital) as hospitals,\n       COLLECT(DISTINCT p.Nearest_Police_Station) as police_stations;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Find areas with teaching hospitals and their nearest base hospitals",
+      "cypher_query": "OPTIONAL MATCH (a1:Area)-[:HAS_HOSPITAL]->(h1:Hospital)\nOPTIONAL MATCH (a2:Area)-[:HAS_HOSPITAL]->(h2:Hospital)\nWHERE h1.Nearest_Hospital CONTAINS 'Teaching'\nAND h2.Nearest_Hospital CONTAINS 'Base'\nAND a1 <> a2\nMATCH path = shortestPath((a1)-[:HAS_DISTANCE*]-(a2))\nRETURN a1.Areas, h1.Nearest_Hospital,\n       a2.Areas, h2.Nearest_Hospital,\n       REDUCE(s = 0, r IN relationships(path) | s + r.Distance_in_km) as distance\nORDER BY distance;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Find the most common hospital types by province",
+      "cypher_query": "OPTIONAL MATCH (p:Province)-[:HAS_DISTRICT]->(d:District)<-[:LOCATED_IN]-(a:Area)-[:HAS_HOSPITAL]->(h:Hospital)\nWITH p, \n     CASE \n       WHEN h.Nearest_Hospital CONTAINS 'Teaching' THEN 'Teaching'\n       WHEN h.Nearest_Hospital CONTAINS 'Base' THEN 'Base'\n       WHEN h.Nearest_Hospital CONTAINS 'District' THEN 'District'\n       ELSE 'Other'\n     END as hospital_type,\n     COUNT(*) as count\nRETURN p.Province, hospital_type, count\nORDER BY p.Province, count DESC;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Find areas with hospitals whose contact numbers match their local area code",
+      "cypher_query": "OPTIONAL MATCH (a:Area)-[:HAS_HOSPITAL]->(h:Hospital)\nWHERE toString(h.Contact_Number) STARTS WITH substring(toString(h.Contact_Number), 0, 2)\nRETURN a.Areas, h.Nearest_Hospital, h.Contact_Number;\n"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Find districts with highest Indian Tamil population and their emergency services.",
+      "cypher_query": "OPTIONAL MATCH (d:District)<-[:LOCATED_IN]-(a:Area)\nOPTIONAL MATCH (a)-[:HAS_HOSPITAL]->(h:Hospital)\nOPTIONAL MATCH (a)-[:HAS_POLICE]->(p:PoliceStation)\nRETURN d.District, d.Indian_Tamils,\n       COLLECT(DISTINCT h.Nearest_Hospital) as hospitals,\n       COLLECT(DISTINCT p.Nearest_Police_Station) as police_stations\nORDER BY toFloat(d.Indian_Tamils) DESC\nLIMIT 5;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "What are all the emergency contact numbers available in Sri Lanka and what services do they provide?",
+      "cypher_query": "OPTIONAL MATCH (c:Country {Country: 'Sri Lanka'})\nRETURN \n    c.Suwa_Seriya_Ambulance as Ambulance,\n    c.Police_Emergency_Service as Police,\n    c.Children_Helpline as Children_Emergency,\n    c.Women_Helpline as Women_Emergency,\n    c.Trilingual_Health_Line as Health_Line;"
     },{
       "question": "",
       "cypher_query": ""
