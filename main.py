@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 # Include static files
-# app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Run the server
 if __name__ == "__main__":

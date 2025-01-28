@@ -25,7 +25,8 @@ from pathlib import Path
 from openai import OpenAI
 from routers import prompts
 from routers.prompts import db_structure
-from fastapi.staticfiles import StaticFiles
+import pandas as pd
+from urllib.parse import urlparse
 
 # In-memory storage for chat histories
 chat_histories: Dict[str, Dict[str, List[str]]] = {}
@@ -393,30 +394,58 @@ def execute_cypher_query(driver, query):
         print(f"Error executing query: {str(e)}")
         return None
 
-# Function to generate a Cypher query based on the user question
+def make_url_link(value):
+    """Convert URL to a clickable link."""
+    if pd.isna(value):
+        return ""
+
+    value_str = str(value).strip()
+
+    # Basic URL validation
+    try:
+        result = urlparse(value_str)
+        is_valid = all([result.scheme, result.netloc])
+    except:
+        is_valid = False
+
+    if not is_valid:
+        return value_str
+
+    return f'<a href="{value_str}" style="color: #0066cc; text-decoration: none;" target="_blank">{value_str}</a>'
+
+
+def make_email_link(value):
+    """Convert email to clickable link."""
+    if pd.isna(value):
+        return ""
+    value_str = str(value).strip()
+    if '@' in value_str and '.' in value_str.split('@')[1]:
+        return f'<a href="mailto:{value_str}" style="color: #0066cc; text-decoration: none;">{value_str}</a>'
+    return value_str
+
+
 def convert_to_html_table(data):
+    """Convert data to HTML table with clickable links."""
     if not data:
         return ""
 
     # Convert data to pandas DataFrame
     df = pd.DataFrame(data)
 
-    # Function to convert email to clickable link
-    def make_email_link(value):
-        if pd.isna(value):
-            return ""
-        value_str = str(value).strip()
-        # Check if the value looks like an email address
-        if '@' in value_str and '.' in value_str.split('@')[1]:
-            return f'<a href="mailto:{value_str}" style="color: #0066cc; text-decoration: none;">{value_str}</a>'
-        return value_str
-
-    # Identify email columns (any column with 'email' in the name, case-insensitive)
+    # Identify email columns
     email_columns = [col for col in df.columns if 'email' in col.lower()]
 
-    # Apply the email link conversion to identified columns
+    # Identify URL columns
+    url_columns = [col for col in df.columns if any(term in col.lower()
+                                                    for term in ['url', 'link', 'website', 'site'])]
+
+    # Apply email link conversion
     for col in email_columns:
         df[col] = df[col].apply(make_email_link)
+
+    # Apply URL link conversion
+    for col in url_columns:
+        df[col] = df[col].apply(make_url_link)
 
     # Generate HTML table
     html_table = df.to_html(
@@ -426,13 +455,19 @@ def convert_to_html_table(data):
         table_id='result-table'
     )
 
-    # Add CSS to make column separators visible and apply additional styling
-    html_table = html_table.replace('<table',
-        '<table style="border-collapse: collapse; border: 1px solid black; width: 100%;"')
-    html_table = html_table.replace('<th',
-        '<th style="border: 1px solid black; text-align: center; padding: 8px;"')
-    html_table = html_table.replace('<td',
-        '<td style="border: 1px solid black; text-align: right; padding: 8px;"')
+    # Add CSS styling
+    html_table = html_table.replace(
+        '<table',
+        '<table style="border-collapse: collapse; border: 1px solid black; width: 100%;"'
+    )
+    html_table = html_table.replace(
+        '<th',
+        '<th style="border: 1px solid black; text-align: center; padding: 8px; background-color: #f5f5f5;"'
+    )
+    html_table = html_table.replace(
+        '<td',
+        '<td style="border: 1px solid black; text-align: left; padding: 8px; vertical-align: top;"'
+    )
 
     return html_table
 
