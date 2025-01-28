@@ -84,11 +84,9 @@ os.makedirs(STATIC_DIR, exist_ok=True)
 # Load JSON data
 with open('routers/sample.json', 'r') as file:
     data = json.load(file)
-
-# Extract questions and their corresponding cypher queries
-questions = [item['question'] for item in data['data']]
-cypher_queries = [item['cypher_query'] for item in data['data']]
-
+    # Extract questions and their corresponding cypher queries
+    db_questions = [item['question'] for item in data['data']]
+    cypher_queries = [item['cypher_query'] for item in data['data']]
 
 # Function to find the top 5 similar questions
 def find_similar_questions(user_query, questions, cypher_queries, top_n=5):
@@ -113,6 +111,7 @@ def find_similar_questions(user_query, questions, cypher_queries, top_n=5):
     return similar_questions
 
 def generate_query(user_question: str, session_id: str, question: Question) -> str:
+    global db_questions
     recent_history = []  # Initialize an empty list to store recent conversation history
     if session_id in chat_histories:  # Check if the session ID exists in the chat histories
         questions = chat_histories[session_id]["questions"]  # Get the questions from the chat histories
@@ -156,6 +155,8 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
        3. Keep {question.settings.formality} tone
        5. Provide {question.settings.response_length} response length
        """
+
+    print(question.settings.response_length)
 
     # Move the prompt template outside the function
     QUERY_CHAT_PROMPT = """Role and Context:
@@ -225,13 +226,24 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                            - 'Yes': If a Cypher query can be generated
                            - 'No': If question cannot be answered with a query
                            - If 'No', query field should be empty
+                           
+                        # Stay Focused and Contextual
+                        - Provide responses that are strictly relevant to the questions asked about Sri Lanka
+                        - Do not include any information beyond the scope of the specific query or subject matter being discussed
+                        - Avoid providing out-of-context or irrelevant information in any responses
+                        - Maintain focus on the exact question asked and its direct implications for Sri Lanka
+                        - If question is unclear, ask for clarification rather than making assumptions
+                        - Never add extraneous information not directly related to the query
+                        
+                        # Strictly follow this setting prompts as well
+                        {settings_prompt}  
                         """
 
     retry_count = 0  # Initialize retry count
     max_retries = 4  # Set maximum number of retries
 
     try:
-        similar_results = find_similar_questions(user_question, questions, cypher_queries)
+        similar_results = find_similar_questions(user_question, db_questions, cypher_queries)
         similar_text = "\n".join([
             f"Reference Q: {q}\nReference Query: {c}\nSimilarity: {s:.2f}"
             for q, c, s in similar_results
@@ -556,7 +568,7 @@ async def chat(question: Question):
                             f.write(result["html_table_data"])  # Write the HTML table data to the file
 
                         # Set the correct URL using the base URL from environment
-                        base_url = os.getenv('API_BASE_URL', 'https://codefest-backend.azurewebsites.net')
+                        base_url = os.getenv('API_BASE_URL', 'http://localhost:8000')
                         result["table_file_url"] = f"{base_url}/static/temp/{table_filename}"
 
                     except Exception as e:  # Handle any exceptions
