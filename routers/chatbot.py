@@ -24,9 +24,12 @@ from fastapi import APIRouter, HTTPException
 from pathlib import Path
 from openai import OpenAI
 from routers import prompts
-from routers.prompts import db_structure
+from routers.prompts import db_structure, settings_prompt
 import pandas as pd
 from urllib.parse import urlparse
+from functools import lru_cache
+from typing import Dict, Tuple
+import hashlib
 
 # In-memory storage for chat histories
 chat_histories: Dict[str, Dict[str, List[str]]] = {}
@@ -61,6 +64,7 @@ password = os.getenv("NEO4J_PASSWORD")
 openai_api_key = os.getenv("OPENAI_API_KEY")
 deployment = os.getenv("DEPLOYMENT_NAME", "gpt-3.5-turbo")
 db_structure_prompt = db_structure
+client = OpenAI(api_key=openai_api_key)
 
 # Function to connect to Neo4j
 def connect_to_neo4j():
@@ -88,10 +92,43 @@ with open('routers/sample.json', 'r') as file:
     db_questions = [item['question'] for item in data['data']]
     cypher_queries = [item['cypher_query'] for item in data['data']]
 
+# Cache for storing previously generated responses
+question_cache: Dict[str, dict] = {}
+
+
+@lru_cache(maxsize=1000)
+def find_similar_questions_cached(user_query: str, top_n: int = 5) -> Tuple[tuple]:
+    """Cached version of find_similar_questions"""
+    # Convert the current implementation to use caching
+    results = find_similar_questions(user_query, top_n)
+    # Convert list of tuples to tuple of tuples for caching
+    return tuple(results)
+
+
+def generate_query_optimized(user_question: str, session_id: str, question: Question) -> str:
+    # Create a cache key based on the question and settings
+    cache_key = hashlib.md5(
+        f"{user_question}_{question.settings.json()}".encode()
+    ).hexdigest()
+
+    # Check cache first
+    if cache_key in question_cache:
+        return question_cache[cache_key]
+
+    # If not in cache, generate response
+    response = generate_query(user_question, session_id, question)
+
+    # Store in cache
+    question_cache[cache_key] = response
+
+    return response
+
+
 # Function to find the top 5 similar questions
-def find_similar_questions(user_query, questions, cypher_queries, top_n=5):
+def find_similar_questions(user_query, top_n=5):
+    global cypher_queries, db_questions
     # Combine user query with the questions
-    corpus = questions + [user_query]
+    corpus = db_questions + [user_query]
 
     # Compute TF-IDF vectors
     vectorizer = TfidfVectorizer()
@@ -105,7 +142,7 @@ def find_similar_questions(user_query, questions, cypher_queries, top_n=5):
 
     # Return the question, cypher_query, and similarity score
     similar_questions = [
-        (questions[i], cypher_queries[i], similarities[i]) for i in similar_indices
+        (db_questions[i], cypher_queries[i], similarities[i]) for i in similar_indices
     ]
 
     return similar_questions
@@ -130,8 +167,6 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
         for item in recent_history
     ])
 
-    print(history_text)
-
     # Define template as a constant
     TEMPLATE_CYPHER = {
         "text_explanation": "",
@@ -155,8 +190,6 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
        3. Keep {question.settings.formality} tone
        5. Provide {question.settings.response_length} response length
        """
-
-    print(question.settings.response_length)
 
     # Move the prompt template outside the function
     QUERY_CHAT_PROMPT = """Role and Context:
@@ -198,13 +231,18 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                         
                         Response Format:
                         --------------
-                        IMPORTANT: Return ONLY the following structure with no prefix text like 'Template:' or 'JSON:':
-                         {template_cypher}
-                
-                        ⚠️ DO NOT include any text before or after the response structure
-                        ⚠️ DO NOT add labels like 'Template:', 'Response:', or 'JSON:'
-                        ⚠️ DO NOT include any additional formatting or explanation
-                        ⚠️ ONLY return the exact structure shown above
+                        IMPORTANT: Return ONLY the following structure in valid JSON format:
+                        - Use double quotes (") instead of single quotes (')
+                        - No newlines within values
+                        - No trailing commas
+                        - Exactly match this structure:
+                        
+                        {template_cypher}
+                        
+                        ⚠️ DO NOT include any text before or after the JSON structure
+                        ⚠️ DO NOT use single quotes in the JSON response
+                        ⚠️ DO NOT include newlines within the values
+                        ⚠️ Ensure the response is valid JSON format
                         
                         Response Guidelines:
                         ------------------
@@ -216,11 +254,12 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                            - For data-related questions, focus on insights and business impact
                            - Never mention querying or accessing a database
                            - Maintain a conversational, helpful tone
-                           - Provide natural language explanations ONLY about Sysco Labs
-                           - Must be strictly related to Sysco Labs operations and services
-                           - Must NOT contain any political, controversial, or non-Sysco content
-                           - For general questions, ONLY provide answers related to Sysco Labs
+                           - Provide natural language explanations ONLY about Sri Lanka
+                           - Must be strictly related to Sri Lanka operations and services
+                           - Must NOT contain any political, controversial, or Sri Lanka content
+                           - For general questions, ONLY provide answers related to Sri Lanka
                            - Maintain a professional, business-focused tone
+                           - ** Must contain emojis for better readability
                         
                         2. query_generation_status:
                            - 'Yes': If a Cypher query can be generated
@@ -234,16 +273,18 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                         - Maintain focus on the exact question asked and its direct implications for Sri Lanka
                         - If question is unclear, ask for clarification rather than making assumptions
                         - Never add extraneous information not directly related to the query
+                        - Relevant emojis is Must in the text explanation and never mention that you refer to database by querying. 
+                        -  Work as TravelGuru when providing responses.
                         
                         # Strictly follow this setting prompts as well
                         {settings_prompt}  
                         """
 
     retry_count = 0  # Initialize retry count
-    max_retries = 4  # Set maximum number of retries
+    max_retries = 2  # Set maximum number of retries
 
     try:
-        similar_results = find_similar_questions(user_question, db_questions, cypher_queries)
+        similar_results = find_similar_questions(user_question)
         similar_text = "\n".join([
             f"Reference Q: {q}\nReference Query: {c}\nSimilarity: {s:.2f}"
             for q, c, s in similar_results
@@ -483,6 +524,93 @@ def convert_to_html_table(data):
 
     return html_table
 
+
+# Function to generate a Cypher query based on the user question
+def generate_table_analysis(data: str, client):
+    try:
+        # Prepare prompt for LLM
+        analysis_prompt = f"""
+                If this data contains not only None values return 'yes'.
+                If the data only contains null values say you cannot generate an answer with data table at the moment in a creative way with emojis bit longer explanation.
+                Don't ever say, since data contains mostly null values or zeros you can't provide an answer.
+
+                example data: 
+                    [{{'a1.Areas': None, 'a2.Areas': None, 'a1.Distance_in_km': None}}]
+                # If it is like this also say you cannot generate an answer at this moment bit longer ways.
+
+                data : {data}
+                """
+
+        # Make API call
+        completion = client.chat.completions.create(
+            model=deployment,
+            messages=[
+                {"role": "system", "content": analysis_prompt},
+                {"role": "user", "content": "Please return 'yes' or explanation based on data."}
+            ],
+            max_tokens=1000,  # Set maximum tokens for response
+            temperature=0.7  # Set the creativity level
+        )
+
+        return completion.choices[0].message.content  # Return the generated analysis
+    except Exception as e:
+        return f"Unable to provide table insights at this moment. Error: {str(e)}"
+
+
+# Function to generate a Cypher query based on the user question
+def generate_html_table_analysis(data, user_question, client, deployment, question):
+    try:
+        # Prepare settings prompt for the user
+        settings = f"""
+                {settings_prompt}
+                Response Settings:
+               - Language: {question.settings.language}
+               - Politeness Level: {question.settings.politeness_level}
+               - Formality: {question.settings.formality}
+               - Response Length: {question.settings.response_length}
+               - Current time: {question.time}
+               - Current date: {question.date}
+
+               Please adjust your response according to these settings:
+               1. Use the specified {question.settings.language} language
+               2. Maintain {question.settings.politeness_level} politeness level
+               3. Keep {question.settings.formality} tone
+               5. Provide {question.settings.response_length} response length
+               6. Use emojis based on above selected settings
+               """
+
+        # Prepare prompt for LLM
+        analysis_prompt = f"""You are a tourism analytics expert specializing in Sri Lankan travel. 
+                        Analyze the following data in context of the user's question and provide 3-4 key tourism insights in an interactive way.
+                        Do not describe about links provided.
+                        Do not provide any welcome statements.
+
+                        Original Question: {user_question}
+                        Data: {str(data)}
+                        
+                        Format your response as a direct list of insights without any preamble or introduction.
+                        
+                        Please strictly follow this settings:
+                            {settings}
+                        """
+
+        # Make API call
+        completion = client.chat.completions.create(
+            model=deployment,
+            messages=[
+                {"role": "system", "content": analysis_prompt},
+                {"role": "user", "content": "Please provide the analysis."}
+            ],
+            max_tokens=1000,  # Set maximum tokens for response
+            temperature=question.settings.creativity  # Set the creativity level based on user settings
+        )
+
+        return completion.choices[0].message.content  # Return the generated analysis
+
+    except Exception as e:  # Handle any exceptions
+        return f"Unable to provide analytical insights at the moment. Error: {str(e)}"
+
+
 # Define the FastAPI router
 @router.post("/start_session")
 async def start_session():
@@ -513,19 +641,27 @@ async def chat(question: Question):
         chat_histories[session_id]["questions"].append(user_question)
 
         # Get the query generation response
-        query_response = generate_query(user_question, session_id, question)
+        query_response = generate_query_optimized(user_question, session_id, question)
 
         try:
             try:
-                # Parse the response as JSON
                 response_dict = json.loads(query_response)
             except json.JSONDecodeError:
                 try:
-                    # Try to parse the response as a Python dict
-                    response_dict = ast.literal_eval(query_response)
-                except (ValueError, SyntaxError):
-                    raise ValueError(
-                        "Could not parse response as JSON or Python dict")  # Raise an error if parsing fails
+                    # Clean up the response string before parsing
+                    cleaned_response = (
+                        query_response
+                        .replace("'", '"')  # Replace single quotes with double quotes
+                        .replace('\n', '')  # Remove newlines
+                    )
+                    # Try parsing again
+                    response_dict = json.loads(cleaned_response)
+                except json.JSONDecodeError:
+                    try:
+                        # As a last resort, try literal eval
+                        response_dict = ast.literal_eval(query_response)
+                    except (ValueError, SyntaxError):
+                        raise ValueError("Could not parse response as JSON or Python dict")
 
             # Validate response format
             required_fields = [
@@ -574,8 +710,13 @@ async def chat(question: Question):
                     except Exception as e:  # Handle any exceptions
                         print(f"Error saving table file: {str(e)}")
 
-                chat_histories[session_id]["answers"].append(query_response)
+                if result["html_table_data"]:  # Check if the HTML table data exists
+                    result["table_accept_status"] = generate_table_analysis(result["data"][:300], client)
 
+                if result["html_table_data"] and result["table_accept_status"].lower() == "yes":
+                    result["table_insights"] = generate_html_table_analysis(result["data"][:300], user_question, client, deployment, question)
+
+            chat_histories[session_id]["answers"].append(query_response)
 
             # Return the response as a JSON object
             return JSONResponse(content={
@@ -601,3 +742,11 @@ async def chat(question: Question):
             },
             status_code=500
         )
+
+# Cache cleanup function
+def cleanup_old_cache(max_age: int = 3600):
+    """Remove cache entries older than max_age seconds"""
+    current_time = time.time()
+    for key in list(question_cache.keys()):
+        if current_time - question_cache[key].get('timestamp', 0) > max_age:
+            del question_cache[key]
