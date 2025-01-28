@@ -25,6 +25,7 @@ from pathlib import Path
 from openai import OpenAI
 from routers import prompts
 from routers.prompts import db_structure
+from fastapi.staticfiles import StaticFiles
 
 # In-memory storage for chat histories
 chat_histories: Dict[str, Dict[str, List[str]]] = {}
@@ -73,6 +74,11 @@ def connect_to_neo4j():
 
 # Connect to Neo4j
 driver = connect_to_neo4j()
+
+# Get the current file's directory and set up static path
+CURRENT_DIR = Path(__file__).resolve().parent
+STATIC_DIR = CURRENT_DIR.parent / "static" / "temp"
+os.makedirs(STATIC_DIR, exist_ok=True)
 
 # Load JSON data
 with open('routers/sample.json', 'r') as file:
@@ -130,9 +136,7 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
     TEMPLATE_CYPHER = {
         "text_explanation": "",
         "query_generation_status": "Yes/No",
-        "query": "OPTIONAL MATCH query here",
-        "plotly_code_generation_status": "Yes/No",
-        "plotly_code": "plotly code"
+        "query": "OPTIONAL MATCH query here"
     }
 
     # Find the top 5 similar questions
@@ -153,7 +157,74 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
        """
 
     # Move the prompt template outside the function
-    QUERY_CHAT_PROMPT = """Role and Context: """
+    QUERY_CHAT_PROMPT = """Role and Context:
+                        You are TravelGuru, an AI assistant that helps users with travel-related queries about Sri Lanka.
+                        
+                        Recent Conversation History: (This contains the recent questions user asked)
+                        -------------------------
+                        {history_text}
+                        
+                         Database Context:
+                        ---------------
+                        Current Graph Database Structure: {graph_db_structure}
+                        
+                        Reference Examples (Not Part of Current Conversation or history):
+                        -------------------------
+                        Reference Examples : {similar_chunks}
+                        
+                          
+                       ⚠️ Note: These examples are ONLY for cypher query generation reference. Do not use Reference Examples as conversation history or general content.
+                       Very Very Important: ⚠️⚠️ Do Not ever use the same reference examples to generate your answer, because it is not the answer user is expecting. 
+                       it is given to get an idea of the cypher query structure.
+                        Query Requirements:
+                        -----------------
+                        1. All queries must start with OPTIONAL MATCH
+                        2. Only use nodes, elements, and relationships defined in the provided graph structure
+                        3. Support cross-table filtering when necessary
+                        
+                        Today Date:
+                        ---------------
+                        {date}
+                        
+                        Today Time:
+                        ______________
+                        {time}
+                        
+                        Input Question:
+                        --------------
+                        {question}
+                        
+                        Response Format:
+                        --------------
+                        IMPORTANT: Return ONLY the following structure with no prefix text like 'Template:' or 'JSON:':
+                         {template_cypher}
+                
+                        ⚠️ DO NOT include any text before or after the response structure
+                        ⚠️ DO NOT add labels like 'Template:', 'Response:', or 'JSON:'
+                        ⚠️ DO NOT include any additional formatting or explanation
+                        ⚠️ ONLY return the exact structure shown above
+                        
+                        Response Guidelines:
+                        ------------------
+                        1. text_explanation:
+                           - Provide natural language explanations
+                           - Can include emojis for better readability
+                           - Must NOT contain code or queries
+                           - For general questions, provide complete, knowledgeable answers here
+                           - For data-related questions, focus on insights and business impact
+                           - Never mention querying or accessing a database
+                           - Maintain a conversational, helpful tone
+                           - Provide natural language explanations ONLY about Sysco Labs
+                           - Must be strictly related to Sysco Labs operations and services
+                           - Must NOT contain any political, controversial, or non-Sysco content
+                           - For general questions, ONLY provide answers related to Sysco Labs
+                           - Maintain a professional, business-focused tone
+                        
+                        2. query_generation_status:
+                           - 'Yes': If a Cypher query can be generated
+                           - 'No': If question cannot be answered with a query
+                           - If 'No', query field should be empty
+                        """
 
     retry_count = 0  # Initialize retry count
     max_retries = 4  # Set maximum number of retries
@@ -167,6 +238,18 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
     except Exception as e:
         similar_text = "No similar examples found."
 
+        # Format the prompt with all required values
+    formatted_prompt = QUERY_CHAT_PROMPT.format(
+        date=question.date,
+        time=question.time,
+        history_text=history_text,
+        graph_db_structure=db_structure_prompt,
+        similar_chunks=similar_text,
+        question=user_question,
+        template_cypher=TEMPLATE_CYPHER,
+        settings_prompt=settings_prompt
+    )
+
 
     # Retry loop for API call
     while retry_count < max_retries:
@@ -178,7 +261,7 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                     "content": [  # Content of the message
                         {
                             "type": "text",
-                            "text": QUERY_CHAT_PROMPT  # Add the formatted prompt to the content
+                            "text": formatted_prompt  # Add the formatted prompt to the content
                         }
                     ]
                 },
@@ -292,6 +375,68 @@ def serialize_value(val):
 
 
 # Define the FastAPI router
+def execute_cypher_query(driver, query):
+    """Execute a Cypher query and return serialized results"""
+    try:
+        with driver.session() as session:
+            result = session.run(query)
+            # Convert Neo4j records to dictionaries and serialize the values
+            records = []
+            for record in result:
+                # Convert each record to a dict and serialize all values
+                record_dict = {}
+                for key, value in dict(record).items(): # Convert to dict to access items
+                    record_dict[key] = serialize_value(value)
+                records.append(record_dict) # Append the serialized record to the list
+            return records
+    except Exception as e: # Handle any exceptions
+        print(f"Error executing query: {str(e)}")
+        return None
+
+# Function to generate a Cypher query based on the user question
+def convert_to_html_table(data):
+    if not data:
+        return ""
+
+    # Convert data to pandas DataFrame
+    df = pd.DataFrame(data)
+
+    # Function to convert email to clickable link
+    def make_email_link(value):
+        if pd.isna(value):
+            return ""
+        value_str = str(value).strip()
+        # Check if the value looks like an email address
+        if '@' in value_str and '.' in value_str.split('@')[1]:
+            return f'<a href="mailto:{value_str}" style="color: #0066cc; text-decoration: none;">{value_str}</a>'
+        return value_str
+
+    # Identify email columns (any column with 'email' in the name, case-insensitive)
+    email_columns = [col for col in df.columns if 'email' in col.lower()]
+
+    # Apply the email link conversion to identified columns
+    for col in email_columns:
+        df[col] = df[col].apply(make_email_link)
+
+    # Generate HTML table
+    html_table = df.to_html(
+        classes=['table', 'table-striped', 'table-hover', 'table-bordered'],
+        index=False,
+        escape=False,
+        table_id='result-table'
+    )
+
+    # Add CSS to make column separators visible and apply additional styling
+    html_table = html_table.replace('<table',
+        '<table style="border-collapse: collapse; border: 1px solid black; width: 100%;"')
+    html_table = html_table.replace('<th',
+        '<th style="border: 1px solid black; text-align: center; padding: 8px;"')
+    html_table = html_table.replace('<td',
+        '<td style="border: 1px solid black; text-align: right; padding: 8px;"')
+
+    return html_table
+
+# Define the FastAPI router
 @router.post("/start_session")
 async def start_session():
     session_id = str(uuid.uuid4()) # Generate a unique session ID
@@ -323,13 +468,72 @@ async def chat(question: Question):
         # Get the query generation response
         query_response = generate_query(user_question, session_id, question)
 
-        chat_histories[session_id]["answers"].append(query_response)
-
         try:
+            try:
+                # Parse the response as JSON
+                response_dict = json.loads(query_response)
+            except json.JSONDecodeError:
+                try:
+                    # Try to parse the response as a Python dict
+                    response_dict = ast.literal_eval(query_response)
+                except (ValueError, SyntaxError):
+                    raise ValueError(
+                        "Could not parse response as JSON or Python dict")  # Raise an error if parsing fails
+
+            # Validate response format
+            required_fields = [
+                "text_explanation",
+                "query_generation_status",
+                "query"
+            ]
+
+            # Check if the response dictionary contains all required fields
+            if not isinstance(response_dict, dict) or not all(
+                    key in response_dict for key in required_fields):
+                raise ValueError("Invalid response format")
+
+            # Initialize the result
+            result = {
+                "text_explanation": response_dict["text_explanation"],
+                "query_generation_status": response_dict["query_generation_status"],
+                "query": response_dict["query"],
+                "data": None,
+                "html_table_data": ""
+            }
+
+            # Execute the query if status is "Yes"
+            if response_dict["query_generation_status"].lower() == "yes" and response_dict["query"]:
+                query_result = execute_cypher_query(driver, response_dict["query"])
+                # Ensure the entire result is JSON serializable
+                result["data"] = json.loads(json.dumps(query_result, default=str))
+
+                # Generate HTML table from the data
+                result["html_table_data"] = convert_to_html_table(query_result)
+
+                # Save HTML table if it exists
+                if result["html_table_data"]:
+                    try:
+                        table_filename = f'table_{session_id}_{timestamp}.html'  # Generate a unique filename
+                        file_path = STATIC_DIR / table_filename  # Set the file path
+
+                        # Write the file
+                        with open(file_path, 'w', encoding='utf-8') as f:  # Open the file in write mode
+                            f.write(result["html_table_data"])  # Write the HTML table data to the file
+
+                        # Set the correct URL using the base URL from environment
+                        base_url = os.getenv('API_BASE_URL', 'https://codefest-backend.azurewebsites.net')
+                        result["table_file_url"] = f"{base_url}/static/temp/{table_filename}"
+
+                    except Exception as e:  # Handle any exceptions
+                        print(f"Error saving table file: {str(e)}")
+
+                chat_histories[session_id]["answers"].append(query_response)
+
+
             # Return the response as a JSON object
             return JSONResponse(content={
                 "session_id": session_id,
-                "result": query_response
+                "result": result
             })
         # Handle any exceptions
         except Exception as e:

@@ -163,10 +163,10 @@
       "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Arugam Bay\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE acc.Description CONTAINS \"Beach\"\nRETURN acc.Accommodation_Place_Name AS Accommodation, acc.Description AS Description;"
     },{
       "question": "What are the descriptions of accommodations in Kandy that offer \"spa services\"?",
-      "cypher_query": "MATCH (a:Area {Areas: \"Kandy\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE acc.Description CONTAINS \"spa\"\nRETURN acc.Accommodation_Place_Name AS Accommodation, acc.Booking_Com_Booking_Link AS booking_link, acc.Description AS Description;"
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Kandy\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE acc.Description CONTAINS \"spa\"\nRETURN acc.Accommodation_Place_Name AS Accommodation, acc.Booking_Com_Booking_Link AS booking_link, acc.Description AS Description;"
     },{
-      "question": "",
-      "cypher_query": ""
+      "question": "Which accommodations in Anuradhapura have a booking link available?",
+      "cypher_query": "OPTIONAL MATCH (a:Area {Areas: \"Anuradhapura\"})-[:HAS_ACCOMADATION]->(acc:Accomadation)\nWHERE acc.Booking_Com_Booking_Link IS NOT NULL\nRETURN acc.Accommodation_Place_Name AS Accommodation, acc.Booking_Com_Booking_Link AS Booking_Link;"
     },{
       "question": "",
       "cypher_query": ""
