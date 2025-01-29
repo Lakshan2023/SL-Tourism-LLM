@@ -167,7 +167,7 @@ db_structure = """
         MERGE (c)-[:HAS_PROVINCE]->(p);
 """
 
-settings_prompt = f"""
+settings_prompt = """
                Each setting text generation pattern explanation:
                    **Politeness Level**
                     Friendly - Warm, welcoming tone with personal touches and encouraging language
@@ -185,7 +185,7 @@ settings_prompt = f"""
                     Professional - Courteous, respectful tone with proper etiquette and business-appropriate language
                     - Key terms: "I appreciate your inquiry", "Thank you for your consideration"
                     - Business phrases: "Per your request", "As discussed", "I am pleased to"
-                    - Formal acknowledgments: "Kind regards \n SyscoPulse Team", "Best regards \n SyscoPulse Team" (Mention SyscoPulse Team)
+                    - Formal acknowledgments: "Kind regards \n TravelGuru", "Best regards \n TravelGuru" (Mention TravelGuru)
                     - Respectful language: "Would you please", "May I suggest"
 
                   **Tone**

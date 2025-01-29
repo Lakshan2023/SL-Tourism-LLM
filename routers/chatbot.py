@@ -64,6 +64,7 @@ password = os.getenv("NEO4J_PASSWORD")
 openai_api_key = os.getenv("OPENAI_API_KEY")
 deployment = os.getenv("DEPLOYMENT_NAME", "gpt-3.5-turbo")
 db_structure_prompt = db_structure
+settings_prompt = settings_prompt
 client = OpenAI(api_key=openai_api_key)
 
 # Function to connect to Neo4j
@@ -92,6 +93,11 @@ with open('routers/sample.json', 'r') as file:
     db_questions = [item['question'] for item in data['data']]
     cypher_queries = [item['cypher_query'] for item in data['data']]
 
+
+vectorizer = TfidfVectorizer()
+# Pre-compute TF-IDF matrix for existing questions
+tfidf_matrix = vectorizer.fit_transform(db_questions)
+
 # Cache for storing previously generated responses
 question_cache: Dict[str, dict] = {}
 
@@ -99,9 +105,7 @@ question_cache: Dict[str, dict] = {}
 @lru_cache(maxsize=1000)
 def find_similar_questions_cached(user_query: str, top_n: int = 5) -> Tuple[tuple]:
     """Cached version of find_similar_questions"""
-    # Convert the current implementation to use caching
     results = find_similar_questions(user_query, top_n)
-    # Convert list of tuples to tuple of tuples for caching
     return tuple(results)
 
 
@@ -124,31 +128,36 @@ def generate_query_optimized(user_question: str, session_id: str, question: Ques
     return response
 
 
-# Function to find the top 5 similar questions
 def find_similar_questions(user_query, top_n=5):
-    global cypher_queries, db_questions
-    # Combine user query with the questions
-    corpus = db_questions + [user_query]
+    """Find similar questions using pre-computed TF-IDF matrix"""
+    global tfidf_matrix, vectorizer, db_questions, cypher_queries
 
-    # Compute TF-IDF vectors
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform(corpus)
+    try:
+        # Transform only the user query using the pre-computed vectorizer
+        query_vector = vectorizer.transform([user_query])
 
-    # Compute cosine similarity of user query with questions
-    similarities = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1]).flatten()
+        # Compute similarity with pre-computed matrix
+        similarities = cosine_similarity(query_vector, tfidf_matrix).flatten()
 
-    # Get the top N similar questions
-    similar_indices = similarities.argsort()[-top_n:][::-1]
+        # Get top N similar indices
+        similar_indices = similarities.argsort()[-top_n:][::-1]
 
-    # Return the question, cypher_query, and similarity score
-    similar_questions = [
-        (db_questions[i], cypher_queries[i], similarities[i]) for i in similar_indices
-    ]
+        # Return results
+        similar_questions = [
+            (db_questions[i], cypher_queries[i], similarities[i])
+            for i in similar_indices
+        ]
 
-    return similar_questions
+        print(similar_questions)
+
+        return similar_questions
+
+    except Exception as e:
+        print(f"Error in finding similar questions: {str(e)}")
+        return []
+
 
 def generate_query(user_question: str, session_id: str, question: Question) -> str:
-    global db_questions
     recent_history = []  # Initialize an empty list to store recent conversation history
     if session_id in chat_histories:  # Check if the session ID exists in the chat histories
         questions = chat_histories[session_id]["questions"]  # Get the questions from the chat histories
@@ -265,6 +274,10 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                            - 'Yes': If a Cypher query can be generated
                            - 'No': If question cannot be answered with a query
                            - If 'No', query field should be empty
+                           
+                        3. query structure details:
+                           - ⚠️ Do not ever provide multiple relations in one line (Always use multiple OPTIONAL MATCH with WITH clause)
+                           - ⚠️⚠️ Do not ever return nodes, always return properties of nodes (This is very important)
                            
                         # Stay Focused and Contextual
                         - Provide responses that are strictly relevant to the questions asked about Sri Lanka
@@ -466,17 +479,6 @@ def make_url_link(value):
 
     return f'<a href="{value_str}" style="color: #0066cc; text-decoration: none;" target="_blank">{value_str}</a>'
 
-
-def make_email_link(value):
-    """Convert email to clickable link."""
-    if pd.isna(value):
-        return ""
-    value_str = str(value).strip()
-    if '@' in value_str and '.' in value_str.split('@')[1]:
-        return f'<a href="mailto:{value_str}" style="color: #0066cc; text-decoration: none;">{value_str}</a>'
-    return value_str
-
-
 def convert_to_html_table(data):
     """Convert data to HTML table with clickable links."""
     if not data:
@@ -485,16 +487,9 @@ def convert_to_html_table(data):
     # Convert data to pandas DataFrame
     df = pd.DataFrame(data)
 
-    # Identify email columns
-    email_columns = [col for col in df.columns if 'email' in col.lower()]
-
     # Identify URL columns
     url_columns = [col for col in df.columns if any(term in col.lower()
                                                     for term in ['url', 'link', 'website', 'site'])]
-
-    # Apply email link conversion
-    for col in email_columns:
-        df[col] = df[col].apply(make_email_link)
 
     # Apply URL link conversion
     for col in url_columns:
@@ -591,6 +586,7 @@ def generate_html_table_analysis(data, user_question, client, deployment, questi
                         Format your response as a direct list of insights without any preamble or introduction.
                         
                         Please strictly follow this settings:
+                           
                             {settings}
                         """
 
@@ -710,11 +706,11 @@ async def chat(question: Question):
                     except Exception as e:  # Handle any exceptions
                         print(f"Error saving table file: {str(e)}")
 
-                if result["html_table_data"]:  # Check if the HTML table data exists
-                    result["table_accept_status"] = generate_table_analysis(result["data"][:300], client)
+                if result["query_generation_status"] == "Yes":  # Check if the HTML table data exists
+                    result["table_accept_status"] = generate_table_analysis(result["data"][:50], client)
 
                 if result["html_table_data"] and result["table_accept_status"].lower() == "yes":
-                    result["table_insights"] = generate_html_table_analysis(result["data"][:300], user_question, client, deployment, question)
+                    result["table_insights"] = generate_html_table_analysis(result["data"][:50], user_question, client, deployment, question)
 
             chat_histories[session_id]["answers"].append(query_response)
 
