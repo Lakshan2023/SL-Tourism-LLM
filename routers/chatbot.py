@@ -343,8 +343,6 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                 }
             ]
 
-            client = OpenAI(api_key=openai_api_key)  # Initialize the OpenAI client
-
             # Make API call
             completion = client.chat.completions.create(
                 model=deployment,
@@ -521,7 +519,7 @@ def convert_to_html_table(data):
 
 
 # Function to generate a Cypher query based on the user question
-def generate_table_analysis(data: str, client):
+def generate_table_analysis(data: str):
     try:
         # Prepare prompt for LLM
         analysis_prompt = f"""
@@ -553,7 +551,7 @@ def generate_table_analysis(data: str, client):
 
 
 # Function to generate a Cypher query based on the user question
-def generate_html_table_analysis(data, user_question, client, deployment, question):
+def generate_html_table_analysis(data, user_question, deployment, question):
     try:
         # Prepare settings prompt for the user
         settings = f"""
@@ -707,10 +705,10 @@ async def chat(question: Question):
                         print(f"Error saving table file: {str(e)}")
 
                 if result["query_generation_status"] == "Yes":  # Check if the HTML table data exists
-                    result["table_accept_status"] = generate_table_analysis(result["data"][:50], client)
+                    result["table_accept_status"] = generate_table_analysis(result["data"][:20])
 
                 if result["html_table_data"] and result["table_accept_status"].lower() == "yes":
-                    result["table_insights"] = generate_html_table_analysis(result["data"][:50], user_question, client, deployment, question)
+                    result["table_insights"] = generate_html_table_analysis(result["data"][:20], user_question, deployment, question)
 
             chat_histories[session_id]["answers"].append(query_response)
 
