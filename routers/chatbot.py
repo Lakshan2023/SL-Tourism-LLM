@@ -523,6 +523,7 @@ def generate_table_analysis(data: str):
     try:
         # Prepare prompt for LLM
         analysis_prompt = f"""
+                You are a tourism analytics expert specializing in Sri Lankan travel. 
                 If this data contains not only None values return 'yes'.
                 If the data only contains null values say you cannot generate an answer with data table at the moment in a creative way with emojis bit longer explanation.
                 Don't ever say, since data contains mostly null values or zeros you can't provide an answer.
