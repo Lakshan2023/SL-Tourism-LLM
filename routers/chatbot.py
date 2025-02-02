@@ -269,6 +269,7 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                            - For general questions, ONLY provide answers related to Sri Lanka
                            - Maintain a professional, business-focused tone
                            - ** Must contain emojis for better readability
+                           - ⚠️⚠️ Do not explain the query that you are generating, explain the answer to the user question.
                         
                         2. query_generation_status:
                            - 'Yes': If a Cypher query can be generated
@@ -606,6 +607,56 @@ def generate_html_table_analysis(data, user_question, deployment, question):
         return f"Unable to provide analytical insights at the moment. Error: {str(e)}"
 
 
+# Function to generate a Cypher query based on the user question
+def generate_answer_rejection(user_question, question):
+    try:
+        # Prepare settings prompt for the user
+        settings = f"""
+                {settings_prompt}
+                Response Settings:
+               - Language: {question.settings.language}
+               - Politeness Level: {question.settings.politeness_level}
+               - Formality: {question.settings.formality}
+               - Response Length: {question.settings.response_length}
+               - Current time: {question.time}
+               - Current date: {question.date}
+
+               Please adjust your response according to these settings:
+               1. Use the specified {question.settings.language} language
+               2. Maintain {question.settings.politeness_level} politeness level
+               3. Keep {question.settings.formality} tone
+               5. Provide {question.settings.response_length} response length
+               6. Use emojis based on above selected settings
+               """
+
+        # Prepare prompt for LLM
+        analysis_prompt = f"""You are a tourism analytics expert specializing in Sri Lankan travel. 
+                        Say that you cannot generate an answer right now.
+
+                        Original Question: {user_question}
+
+                        Please strictly follow this settings:
+
+                            {settings}
+                        """
+
+        # Make API call
+        completion = client.chat.completions.create(
+            model=deployment,
+            messages=[
+                {"role": "system", "content": analysis_prompt},
+                {"role": "user", "content": "Please provide the analysis."}
+            ],
+            max_tokens=1000,  # Set maximum tokens for response
+            temperature=question.settings.creativity  # Set the creativity level based on user settings
+        )
+
+        return completion.choices[0].message.content  # Return the generated analysis
+
+    except Exception as e:  # Handle any exceptions
+        return f"Unable to provide analytical insights at the moment. Error: {str(e)}"
+
+
 # Define the FastAPI router
 @router.post("/start_session")
 async def start_session():
@@ -682,36 +733,41 @@ async def chat(question: Question):
             # Execute the query if status is "Yes"
             if response_dict["query_generation_status"].lower() == "yes" and response_dict["query"]:
                 query_result = execute_cypher_query(driver, response_dict["query"])
-                # Ensure the entire result is JSON serializable
-                result["data"] = json.loads(json.dumps(query_result, default=str))
 
-                # Generate HTML table from the data
-                result["html_table_data"] = convert_to_html_table(query_result)
+                if not query_result:
+                    result["text_explanation"] = generate_answer_rejection(user_question, question)
 
-                # Save HTML table if it exists
-                if result["html_table_data"]:
-                    try:
-                        table_filename = f'table_{session_id}_{timestamp}.html'  # Generate a unique filename
-                        file_path = STATIC_DIR / table_filename  # Set the file path
+                else:
+                    # Ensure the entire result is JSON serializable
+                    result["data"] = json.loads(json.dumps(query_result, default=str))
 
-                        # Write the file
-                        with open(file_path, 'w', encoding='utf-8') as f:  # Open the file in write mode
-                            f.write(result["html_table_data"])  # Write the HTML table data to the file
+                    # Generate HTML table from the data
+                    result["html_table_data"] = convert_to_html_table(query_result)
 
-                        # Set the correct URL using the base URL from environment
-                        base_url = os.getenv('API_BASE_URL', 'http://localhost:8000')
-                        result["table_file_url"] = f"{base_url}/static/temp/{table_filename}"
+                    # Save HTML table if it exists
+                    if result["html_table_data"]:
+                        try:
+                            table_filename = f'table_{session_id}_{timestamp}.html'  # Generate a unique filename
+                            file_path = STATIC_DIR / table_filename  # Set the file path
 
-                    except Exception as e:  # Handle any exceptions
-                        print(f"Error saving table file: {str(e)}")
+                            # Write the file
+                            with open(file_path, 'w', encoding='utf-8') as f:  # Open the file in write mode
+                                f.write(result["html_table_data"])  # Write the HTML table data to the file
 
-                if result["query_generation_status"] == "Yes":  # Check if the HTML table data exists
-                    result["table_accept_status"] = generate_table_analysis(result["data"][:20])
+                            # Set the correct URL using the base URL from environment
+                            base_url = os.getenv('API_BASE_URL', 'http://localhost:8000')
+                            result["table_file_url"] = f"{base_url}/static/temp/{table_filename}"
 
-                if result["html_table_data"] and result["table_accept_status"].lower() == "yes":
-                    result["table_insights"] = generate_html_table_analysis(result["data"][:20], user_question, deployment, question)
+                        except Exception as e:  # Handle any exceptions
+                            print(f"Error saving table file: {str(e)}")
 
-            chat_histories[session_id]["answers"].append(query_response)
+                    if result["query_generation_status"] == "Yes":  # Check if the HTML table data exists
+                        result["table_accept_status"] = generate_table_analysis(result["data"][:20])
+
+                    if result["html_table_data"] and result["table_accept_status"].lower() == "yes":
+                        result["table_insights"] = generate_html_table_analysis(result["data"][:20], user_question, deployment, question)
+
+                chat_histories[session_id]["answers"].append(query_response)
 
             # Return the response as a JSON object
             return JSONResponse(content={
