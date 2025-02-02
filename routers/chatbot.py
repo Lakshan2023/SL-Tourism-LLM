@@ -272,8 +272,8 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                            - ⚠️⚠️ Do not explain the query that you are generating, explain the answer to the user question.
                         
                         2. query_generation_status:
-                           - 'Yes': If a Cypher query can be generated
-                           - 'No': If question cannot be answered with a query
+                           - 'Yes': If a Cypher query can be generated based on the question and graph structure
+                           - 'No': If question cannot be answered with a query if keywords are not present in the question
                            - If 'No', query field should be empty
                            
                         3. query structure details:

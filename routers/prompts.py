@@ -200,7 +200,7 @@ db_structure = """
                 Description
                 
                 
-            Restaurant Node:
+            Restaurant Node (When user ask about restaurants use this):
                 Restaurant (unique constraint)
                 Ratings
                 Google_map_link
@@ -212,7 +212,7 @@ db_structure = """
                 Season
                 
                 
-            Accommodation Node:
+            Accommodation Node (When user ask about hotels/motels use this):
                 Accommodation_Place_Name (unique constraint)
                 Rating
                 Type
