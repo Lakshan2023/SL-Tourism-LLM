@@ -64,6 +64,7 @@ password = os.getenv("NEO4J_PASSWORD")
 openai_api_key = os.getenv("OPENAI_API_KEY")
 deployment = os.getenv("DEPLOYMENT_NAME", "gpt-3.5-turbo")
 db_structure_prompt = db_structure
+settings_prompt = settings_prompt
 client = OpenAI(api_key=openai_api_key)
 
 # Function to connect to Neo4j
@@ -92,6 +93,11 @@ with open('routers/sample.json', 'r') as file:
     db_questions = [item['question'] for item in data['data']]
     cypher_queries = [item['cypher_query'] for item in data['data']]
 
+
+vectorizer = TfidfVectorizer()
+# Pre-compute TF-IDF matrix for existing questions
+tfidf_matrix = vectorizer.fit_transform(db_questions)
+
 # Cache for storing previously generated responses
 question_cache: Dict[str, dict] = {}
 
@@ -99,9 +105,7 @@ question_cache: Dict[str, dict] = {}
 @lru_cache(maxsize=1000)
 def find_similar_questions_cached(user_query: str, top_n: int = 5) -> Tuple[tuple]:
     """Cached version of find_similar_questions"""
-    # Convert the current implementation to use caching
     results = find_similar_questions(user_query, top_n)
-    # Convert list of tuples to tuple of tuples for caching
     return tuple(results)
 
 
@@ -124,31 +128,36 @@ def generate_query_optimized(user_question: str, session_id: str, question: Ques
     return response
 
 
-# Function to find the top 5 similar questions
 def find_similar_questions(user_query, top_n=5):
-    global cypher_queries, db_questions
-    # Combine user query with the questions
-    corpus = db_questions + [user_query]
+    """Find similar questions using pre-computed TF-IDF matrix"""
+    global tfidf_matrix, vectorizer, db_questions, cypher_queries
 
-    # Compute TF-IDF vectors
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform(corpus)
+    try:
+        # Transform only the user query using the pre-computed vectorizer
+        query_vector = vectorizer.transform([user_query])
 
-    # Compute cosine similarity of user query with questions
-    similarities = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1]).flatten()
+        # Compute similarity with pre-computed matrix
+        similarities = cosine_similarity(query_vector, tfidf_matrix).flatten()
 
-    # Get the top N similar questions
-    similar_indices = similarities.argsort()[-top_n:][::-1]
+        # Get top N similar indices
+        similar_indices = similarities.argsort()[-top_n:][::-1]
 
-    # Return the question, cypher_query, and similarity score
-    similar_questions = [
-        (db_questions[i], cypher_queries[i], similarities[i]) for i in similar_indices
-    ]
+        # Return results
+        similar_questions = [
+            (db_questions[i], cypher_queries[i], similarities[i])
+            for i in similar_indices
+        ]
 
-    return similar_questions
+        print(similar_questions)
+
+        return similar_questions
+
+    except Exception as e:
+        print(f"Error in finding similar questions: {str(e)}")
+        return []
+
 
 def generate_query(user_question: str, session_id: str, question: Question) -> str:
-    global db_questions
     recent_history = []  # Initialize an empty list to store recent conversation history
     if session_id in chat_histories:  # Check if the session ID exists in the chat histories
         questions = chat_histories[session_id]["questions"]  # Get the questions from the chat histories
@@ -260,11 +269,16 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                            - For general questions, ONLY provide answers related to Sri Lanka
                            - Maintain a professional, business-focused tone
                            - ** Must contain emojis for better readability
+                           - ⚠️⚠️ Do not explain the query that you are generating, explain the answer to the user question.
                         
                         2. query_generation_status:
-                           - 'Yes': If a Cypher query can be generated
-                           - 'No': If question cannot be answered with a query
+                           - 'Yes': If a Cypher query can be generated based on the question and graph structure
+                           - 'No': If question cannot be answered with a query if keywords are not present in the question
                            - If 'No', query field should be empty
+                           
+                        3. query structure details:
+                           - ⚠️ Do not ever provide multiple relations in one line (Always use multiple OPTIONAL MATCH with WITH clause)
+                           - ⚠️⚠️ Do not ever return nodes, always return properties of nodes (This is very important)
                            
                         # Stay Focused and Contextual
                         - Provide responses that are strictly relevant to the questions asked about Sri Lanka
@@ -329,8 +343,6 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                     ]
                 }
             ]
-
-            client = OpenAI(api_key=openai_api_key)  # Initialize the OpenAI client
 
             # Make API call
             completion = client.chat.completions.create(
@@ -466,17 +478,6 @@ def make_url_link(value):
 
     return f'<a href="{value_str}" style="color: #0066cc; text-decoration: none;" target="_blank">{value_str}</a>'
 
-
-def make_email_link(value):
-    """Convert email to clickable link."""
-    if pd.isna(value):
-        return ""
-    value_str = str(value).strip()
-    if '@' in value_str and '.' in value_str.split('@')[1]:
-        return f'<a href="mailto:{value_str}" style="color: #0066cc; text-decoration: none;">{value_str}</a>'
-    return value_str
-
-
 def convert_to_html_table(data):
     """Convert data to HTML table with clickable links."""
     if not data:
@@ -485,16 +486,9 @@ def convert_to_html_table(data):
     # Convert data to pandas DataFrame
     df = pd.DataFrame(data)
 
-    # Identify email columns
-    email_columns = [col for col in df.columns if 'email' in col.lower()]
-
     # Identify URL columns
     url_columns = [col for col in df.columns if any(term in col.lower()
                                                     for term in ['url', 'link', 'website', 'site'])]
-
-    # Apply email link conversion
-    for col in email_columns:
-        df[col] = df[col].apply(make_email_link)
 
     # Apply URL link conversion
     for col in url_columns:
@@ -526,10 +520,11 @@ def convert_to_html_table(data):
 
 
 # Function to generate a Cypher query based on the user question
-def generate_table_analysis(data: str, client):
+def generate_table_analysis(data: str):
     try:
         # Prepare prompt for LLM
         analysis_prompt = f"""
+                You are a tourism analytics expert specializing in Sri Lankan travel. 
                 If this data contains not only None values return 'yes'.
                 If the data only contains null values say you cannot generate an answer with data table at the moment in a creative way with emojis bit longer explanation.
                 Don't ever say, since data contains mostly null values or zeros you can't provide an answer.
@@ -558,7 +553,7 @@ def generate_table_analysis(data: str, client):
 
 
 # Function to generate a Cypher query based on the user question
-def generate_html_table_analysis(data, user_question, client, deployment, question):
+def generate_html_table_analysis(data, user_question, deployment, question):
     try:
         # Prepare settings prompt for the user
         settings = f"""
@@ -591,6 +586,57 @@ def generate_html_table_analysis(data, user_question, client, deployment, questi
                         Format your response as a direct list of insights without any preamble or introduction.
                         
                         Please strictly follow this settings:
+                           
+                            {settings}
+                        """
+
+        # Make API call
+        completion = client.chat.completions.create(
+            model=deployment,
+            messages=[
+                {"role": "system", "content": analysis_prompt},
+                {"role": "user", "content": "Please provide the analysis."}
+            ],
+            max_tokens=1000,  # Set maximum tokens for response
+            temperature=question.settings.creativity  # Set the creativity level based on user settings
+        )
+
+        return completion.choices[0].message.content  # Return the generated analysis
+
+    except Exception as e:  # Handle any exceptions
+        return f"Unable to provide analytical insights at the moment. Error: {str(e)}"
+
+
+# Function to generate a Cypher query based on the user question
+def generate_answer_rejection(user_question, question):
+    try:
+        # Prepare settings prompt for the user
+        settings = f"""
+                {settings_prompt}
+                Response Settings:
+               - Language: {question.settings.language}
+               - Politeness Level: {question.settings.politeness_level}
+               - Formality: {question.settings.formality}
+               - Response Length: {question.settings.response_length}
+               - Current time: {question.time}
+               - Current date: {question.date}
+
+               Please adjust your response according to these settings:
+               1. Use the specified {question.settings.language} language
+               2. Maintain {question.settings.politeness_level} politeness level
+               3. Keep {question.settings.formality} tone
+               5. Provide {question.settings.response_length} response length
+               6. Use emojis based on above selected settings
+               """
+
+        # Prepare prompt for LLM
+        analysis_prompt = f"""You are a tourism analytics expert specializing in Sri Lankan travel. 
+                        Say that you cannot generate an answer right now.
+
+                        Original Question: {user_question}
+
+                        Please strictly follow this settings:
+
                             {settings}
                         """
 
@@ -687,34 +733,39 @@ async def chat(question: Question):
             # Execute the query if status is "Yes"
             if response_dict["query_generation_status"].lower() == "yes" and response_dict["query"]:
                 query_result = execute_cypher_query(driver, response_dict["query"])
-                # Ensure the entire result is JSON serializable
-                result["data"] = json.loads(json.dumps(query_result, default=str))
 
-                # Generate HTML table from the data
-                result["html_table_data"] = convert_to_html_table(query_result)
+                if not query_result:
+                    result["text_explanation"] = generate_answer_rejection(user_question, question)
 
-                # Save HTML table if it exists
-                if result["html_table_data"]:
-                    try:
-                        table_filename = f'table_{session_id}_{timestamp}.html'  # Generate a unique filename
-                        file_path = STATIC_DIR / table_filename  # Set the file path
+                else:
+                    # Ensure the entire result is JSON serializable
+                    result["data"] = json.loads(json.dumps(query_result, default=str))
 
-                        # Write the file
-                        with open(file_path, 'w', encoding='utf-8') as f:  # Open the file in write mode
-                            f.write(result["html_table_data"])  # Write the HTML table data to the file
+                    # Generate HTML table from the data
+                    result["html_table_data"] = convert_to_html_table(query_result)
 
-                        # Set the correct URL using the base URL from environment
-                        base_url = os.getenv('API_BASE_URL', 'http://localhost:8000')
-                        result["table_file_url"] = f"{base_url}/static/temp/{table_filename}"
+                    # Save HTML table if it exists
+                    if result["html_table_data"]:
+                        try:
+                            table_filename = f'table_{session_id}_{timestamp}.html'  # Generate a unique filename
+                            file_path = STATIC_DIR / table_filename  # Set the file path
 
-                    except Exception as e:  # Handle any exceptions
-                        print(f"Error saving table file: {str(e)}")
+                            # Write the file
+                            with open(file_path, 'w', encoding='utf-8') as f:  # Open the file in write mode
+                                f.write(result["html_table_data"])  # Write the HTML table data to the file
 
-                if result["html_table_data"]:  # Check if the HTML table data exists
-                    result["table_accept_status"] = generate_table_analysis(result["data"][:300], client)
+                            # Set the correct URL using the base URL from environment
+                            base_url = os.getenv('API_BASE_URL', 'http://localhost:8000')
+                            result["table_file_url"] = f"{base_url}/static/temp/{table_filename}"
 
-                if result["html_table_data"] and result["table_accept_status"].lower() == "yes":
-                    result["table_insights"] = generate_html_table_analysis(result["data"][:300], user_question, client, deployment, question)
+                        except Exception as e:  # Handle any exceptions
+                            print(f"Error saving table file: {str(e)}")
+
+                    if result["query_generation_status"] == "Yes":  # Check if the HTML table data exists
+                        result["table_accept_status"] = generate_table_analysis(result["data"][:20])
+
+                    if result["html_table_data"] and result["table_accept_status"].lower() == "yes":
+                        result["table_insights"] = generate_html_table_analysis(result["data"][:20], user_question, deployment, question)
 
             chat_histories[session_id]["answers"].append(query_response)
 
