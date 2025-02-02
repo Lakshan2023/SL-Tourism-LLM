@@ -767,7 +767,7 @@ async def chat(question: Question):
                     if result["html_table_data"] and result["table_accept_status"].lower() == "yes":
                         result["table_insights"] = generate_html_table_analysis(result["data"][:20], user_question, deployment, question)
 
-                chat_histories[session_id]["answers"].append(query_response)
+            chat_histories[session_id]["answers"].append(query_response)
 
             # Return the response as a JSON object
             return JSONResponse(content={
