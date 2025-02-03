@@ -297,6 +297,7 @@ db_structure = """
             Properties: None
             
         Use only the relationship properties that are not None.
+        Please make sure the 
 """
 
 settings_prompt = """

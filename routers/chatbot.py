@@ -275,10 +275,12 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                            - 'Yes': If a Cypher query can be generated based on the question and graph structure
                            - 'No': If question cannot be answered with a query if keywords are not present in the question
                            - If 'No', query field should be empty
+                           -
                            
                         3. query structure details:
                            - ⚠️ Do not ever provide multiple relations in one line (Always use multiple OPTIONAL MATCH with WITH clause)
                            - ⚠️⚠️ Do not ever return nodes, always return properties of nodes (This is very important)
+                           - ⚠️⚠️ Do not ever mention like this in single quotes (a:Area {{Areas: \'Arugam Bay\'}}), always mention like this (a:Area {{Areas: \"Arugam Bay\"}})
                            
                         # Stay Focused and Contextual
                         - Provide responses that are strictly relevant to the questions asked about Sri Lanka
