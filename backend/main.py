@@ -13,8 +13,8 @@ app.include_router(chatbot.router, prefix="/chatbot", tags=["chatbot"])
 # Include CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
+    allow_origins=["http://localhost:3000", "http://localhost:8000"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

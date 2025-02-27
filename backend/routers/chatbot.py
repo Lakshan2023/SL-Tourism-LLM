@@ -202,7 +202,7 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
 
     # Move the prompt template outside the function
     QUERY_CHAT_PROMPT = """Role and Context:
-                        You are TravelGuru, an AI assistant that helps users with travel-related queries about Sri Lanka.
+                        You are TourMate, an AI assistant that helps users with travel-related queries about Sri Lanka.
                         
                         Recent Conversation History: (This contains the recent questions user asked)
                         -------------------------
@@ -685,6 +685,7 @@ async def chat(question: Question):
 
         # Add the user question to the chat history
         chat_histories[session_id]["questions"].append(user_question)
+        
 
         # Get the query generation response
         query_response = generate_query_optimized(user_question, session_id, question)
@@ -789,7 +790,8 @@ async def chat(question: Question):
         return JSONResponse(
             content={
                 "error": "An error occurred processing your request",
-                "detail": str(e)
+                # Error message and line number
+                "detail": str(e) + f" (Line {e.__traceback__.tb_lineno})"
             },
             status_code=500
         )
@@ -801,3 +803,77 @@ def cleanup_old_cache(max_age: int = 3600):
     for key in list(question_cache.keys()):
         if current_time - question_cache[key].get('timestamp', 0) > max_age:
             del question_cache[key]
+
+# Add new route definitions after the existing start_session route
+@router.get("/check_session/{session_id}")
+async def check_session(session_id: str):
+    """Check if a session exists and return its validity status"""
+    if session_id in chat_histories:
+        return JSONResponse(
+            content={
+                "valid": True,
+                "session_id": session_id
+            }
+        )
+    return JSONResponse(
+        content={"valid": False},
+        status_code=404
+    )
+
+@router.get("/chat_history/{session_id}")
+async def get_chat_history(session_id: str):
+    """Get chat history for a specific session"""
+    if session_id not in chat_histories:
+        return JSONResponse(
+            content={"error": "Session not found"},
+            status_code=404
+        )
+    
+    # Format chat history into message format
+    history = []
+    questions = chat_histories[session_id]["questions"]
+    answers = chat_histories[session_id]["answers"]
+    
+    for i in range(len(questions)):
+        # Add user message
+        history.append({
+            "sender": "user",
+            "text": questions[i],
+            "time": datetime.now().strftime("%I:%M %p")  # You might want to store actual timestamps in your chat_histories
+        })
+        
+        # Add bot message if available
+        if i < len(answers):
+            try:
+                # Parse the answer from JSON string if needed
+                answer_data = answers[i]
+                if isinstance(answer_data, str):
+                    answer_data = json.loads(answer_data)
+                
+                history.append({
+                    "sender": "bot",
+                    "text": answer_data.get("text_explanation", "No response"),
+                    "time": datetime.now().strftime("%I:%M %p"),
+                    "tableData": answer_data.get("data"),
+                    "tableInsights": answer_data.get("table_insights")
+                })
+            except Exception as e:
+                print(f"Error parsing answer: {str(e)}")
+                history.append({
+                    "sender": "bot",
+                    "text": "Error retrieving response",
+                    "time": datetime.now().strftime("%I:%M %p")
+                })
+
+    return JSONResponse(content={"history": history})
+
+@router.delete("/end_session/{session_id}")
+async def end_session(session_id: str):
+    """End a session and clean up its resources"""
+    if session_id in chat_histories:
+        del chat_histories[session_id]
+        return JSONResponse(content={"message": "Session terminated successfully"})
+    return JSONResponse(
+        content={"error": "Session not found"},
+        status_code=404
+    )
