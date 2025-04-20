@@ -1,2 +1,2 @@
-# SL-Tourism-LLM
-Sri Lankan Tourist LLM
+# Tour-Guide-System
+Final Year Project
