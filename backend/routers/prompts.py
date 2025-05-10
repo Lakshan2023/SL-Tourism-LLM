@@ -297,6 +297,28 @@ db_structure = """
             Properties: None
             
         Use only the relationship properties that are not None.
+        
+        
+        weather Node additionaly contain these details and these are the names of the variables.
+        
+        precipitation_prob  
+        last_updated  
+        Description  
+        avg_temp  
+        avg_precip  
+        description  
+        Month  
+        precipitation  
+        avg_wind  
+        min_temp  
+        current_temp  
+        season  
+        wind_speed  
+        Season  
+        max_temp  
+        precip_prob
+        
+        please consider them as well when user ask about weather.when providing weather details please mention the location name.
 """
 
 settings_prompt = """
