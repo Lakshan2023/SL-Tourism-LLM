@@ -2563,3 +2563,752 @@
 2025-05-18 00:56:51,515 - weather_scheduler - INFO - Weather stats: 49/63 areas have weather data
 2025-05-18 00:56:51,515 - weather_scheduler - INFO - Oldest update is 0 days old from 2025-05-18T00:56:48.529280
 2025-05-18 00:56:51,515 - weather_scheduler - INFO - Weather batch update completed successfully
+2025-05-18 00:58:51,525 - weather_scheduler - INFO - Starting scheduled weather batch update (batch size: 58)
+2025-05-18 00:58:51,527 - weather_updater - INFO - Fetching locations that need updates...
+2025-05-18 00:58:52,621 - weather_updater - INFO - Found 49 locations needing update
+2025-05-18 00:58:52,621 - weather_scheduler - INFO - Found 49 locations to update
+2025-05-18 00:58:52,621 - weather_scheduler - INFO - Updating weather data for Arugam Bay
+2025-05-18 00:58:54,680 - weather_updater - INFO - Updated database for Arugam Bay
+2025-05-18 00:58:54,680 - weather_scheduler - INFO - Updating weather data for Nuwara Eliya
+2025-05-18 00:58:56,615 - weather_updater - INFO - Updated database for Nuwara Eliya
+2025-05-18 00:58:56,615 - weather_scheduler - INFO - Updating weather data for Kandy
+2025-05-18 00:58:58,461 - weather_updater - INFO - Updated database for Kandy
+2025-05-18 00:58:58,461 - weather_scheduler - INFO - Updating weather data for Kataragama
+2025-05-18 00:59:00,224 - weather_updater - INFO - Updated database for Kataragama
+2025-05-18 00:59:00,225 - weather_scheduler - INFO - Updating weather data for Anuradhapura
+2025-05-18 00:59:02,275 - weather_updater - INFO - Updated database for Anuradhapura
+2025-05-18 00:59:02,275 - weather_scheduler - INFO - Updating weather data for Colombo
+2025-05-18 00:59:04,298 - weather_updater - INFO - Updated database for Colombo
+2025-05-18 00:59:04,299 - weather_scheduler - INFO - Updating weather data for Galle
+2025-05-18 00:59:06,168 - weather_updater - INFO - Updated database for Galle
+2025-05-18 00:59:06,168 - weather_scheduler - INFO - Updating weather data for Jaffna
+2025-05-18 00:59:07,984 - weather_updater - INFO - Updated database for Jaffna
+2025-05-18 00:59:07,984 - weather_scheduler - INFO - Updating weather data for Trincomalee
+2025-05-18 00:59:10,026 - weather_updater - INFO - Updated database for Trincomalee
+2025-05-18 00:59:10,026 - weather_scheduler - INFO - Updating weather data for Ella
+2025-05-18 00:59:12,453 - weather_updater - INFO - Updated database for Ella
+2025-05-18 00:59:12,454 - weather_scheduler - INFO - Updating weather data for Sigiriya
+2025-05-18 00:59:14,514 - weather_updater - INFO - Updated database for Sigiriya
+2025-05-18 00:59:14,514 - weather_scheduler - INFO - Updating weather data for Polonnaruwa
+2025-05-18 00:59:16,365 - weather_updater - INFO - Updated database for Polonnaruwa
+2025-05-18 00:59:16,365 - weather_scheduler - INFO - Updating weather data for Dambulla
+2025-05-18 00:59:18,119 - weather_updater - INFO - Updated database for Dambulla
+2025-05-18 00:59:18,120 - weather_scheduler - INFO - Updating weather data for Mirissa
+2025-05-18 00:59:19,987 - weather_updater - INFO - Updated database for Mirissa
+2025-05-18 00:59:19,987 - weather_scheduler - INFO - Updating weather data for Bentota
+2025-05-18 00:59:21,716 - weather_updater - INFO - Updated database for Bentota
+2025-05-18 00:59:21,716 - weather_scheduler - INFO - Updating weather data for Hikkaduwa
+2025-05-18 00:59:23,950 - weather_updater - INFO - Updated database for Hikkaduwa
+2025-05-18 00:59:23,951 - weather_scheduler - INFO - Updating weather data for Unawatuna
+2025-05-18 00:59:25,799 - weather_updater - INFO - Updated database for Unawatuna
+2025-05-18 00:59:25,799 - weather_scheduler - INFO - Updating weather data for Negombo
+2025-05-18 00:59:27,654 - weather_updater - INFO - Updated database for Negombo
+2025-05-18 00:59:27,654 - weather_scheduler - INFO - Updating weather data for Kalpitiya
+2025-05-18 00:59:29,653 - weather_updater - INFO - Updated database for Kalpitiya
+2025-05-18 00:59:29,653 - weather_scheduler - INFO - Updating weather data for Matara
+2025-05-18 00:59:31,636 - weather_updater - INFO - Updated database for Matara
+2025-05-18 00:59:31,636 - weather_scheduler - INFO - Updating weather data for Tangalle
+2025-05-18 00:59:33,320 - weather_updater - INFO - Updated database for Tangalle
+2025-05-18 00:59:33,321 - weather_scheduler - INFO - Updating weather data for Tissamaharama
+2025-05-18 00:59:35,015 - weather_updater - INFO - Updated database for Tissamaharama
+2025-05-18 00:59:35,015 - weather_scheduler - INFO - Updating weather data for Udawalawe
+2025-05-18 00:59:36,860 - weather_updater - INFO - Updated database for Udawalawe
+2025-05-18 00:59:36,860 - weather_scheduler - INFO - Updating weather data for Yala National Park
+2025-05-18 00:59:38,688 - weather_updater - INFO - Updated database for Yala National Park
+2025-05-18 00:59:38,689 - weather_scheduler - INFO - Updating weather data for Horton Plains
+2025-05-18 00:59:40,599 - weather_updater - INFO - Updated database for Horton Plains
+2025-05-18 00:59:40,599 - weather_scheduler - INFO - Updating weather data for Adam's Peak
+2025-05-18 00:59:42,544 - weather_updater - INFO - Updated database for Adam's Peak
+2025-05-18 00:59:42,544 - weather_scheduler - INFO - Updating weather data for Badulla
+2025-05-18 00:59:44,640 - weather_updater - INFO - Updated database for Badulla
+2025-05-18 00:59:44,640 - weather_scheduler - INFO - Updating weather data for Bandarawela
+2025-05-18 00:59:46,439 - weather_updater - INFO - Updated database for Bandarawela
+2025-05-18 00:59:46,439 - weather_scheduler - INFO - Updating weather data for Haputale
+2025-05-18 00:59:48,219 - weather_updater - INFO - Updated database for Haputale
+2025-05-18 00:59:48,219 - weather_scheduler - INFO - Updating weather data for Kitulgala
+2025-05-18 00:59:50,186 - weather_updater - INFO - Updated database for Kitulgala
+2025-05-18 00:59:50,187 - weather_scheduler - INFO - Updating weather data for Ratnapura
+2025-05-18 00:59:52,064 - weather_updater - INFO - Updated database for Ratnapura
+2025-05-18 00:59:52,064 - weather_scheduler - INFO - Updating weather data for Kurunegala
+2025-05-18 00:59:54,042 - weather_updater - INFO - Updated database for Kurunegala
+2025-05-18 00:59:54,042 - weather_scheduler - INFO - Updating weather data for Puttalam
+2025-05-18 00:59:56,069 - weather_updater - INFO - Updated database for Puttalam
+2025-05-18 00:59:56,069 - weather_scheduler - INFO - Updating weather data for Chilaw
+2025-05-18 00:59:58,130 - weather_updater - INFO - Updated database for Chilaw
+2025-05-18 00:59:58,130 - weather_scheduler - INFO - Updating weather data for Mannar
+2025-05-18 00:59:59,868 - weather_updater - INFO - Updated database for Mannar
+2025-05-18 00:59:59,868 - weather_scheduler - INFO - Updating weather data for Vavuniya
+2025-05-18 01:00:02,830 - weather_updater - INFO - Updated database for Vavuniya
+2025-05-18 01:00:02,830 - weather_scheduler - INFO - Updating weather data for Mullaitivu
+2025-05-18 01:00:04,568 - weather_updater - INFO - Updated database for Mullaitivu
+2025-05-18 01:00:04,568 - weather_scheduler - INFO - Updating weather data for Batticaloa
+2025-05-18 01:00:06,506 - weather_updater - INFO - Updated database for Batticaloa
+2025-05-18 01:00:06,506 - weather_scheduler - INFO - Updating weather data for Ampara
+2025-05-18 01:00:08,542 - weather_updater - INFO - Updated database for Ampara
+2025-05-18 01:00:08,542 - weather_scheduler - INFO - Updating weather data for Monaragala
+2025-05-18 01:00:10,540 - weather_updater - INFO - Updated database for Monaragala
+2025-05-18 01:00:10,540 - weather_scheduler - INFO - Updating weather data for Hambantota
+2025-05-18 01:00:12,298 - weather_updater - INFO - Updated database for Hambantota
+2025-05-18 01:00:12,299 - weather_scheduler - INFO - Updating weather data for Embilipitiya
+2025-05-18 01:00:14,284 - weather_updater - INFO - Updated database for Embilipitiya
+2025-05-18 01:00:14,284 - weather_scheduler - INFO - Updating weather data for Kalutara
+2025-05-18 01:00:16,104 - weather_updater - INFO - Updated database for Kalutara
+2025-05-18 01:00:16,105 - weather_scheduler - INFO - Updating weather data for Panadura
+2025-05-18 01:00:17,897 - weather_updater - INFO - Updated database for Panadura
+2025-05-18 01:00:17,897 - weather_scheduler - INFO - Updating weather data for Moratuwa
+2025-05-18 01:00:19,931 - weather_updater - INFO - Updated database for Moratuwa
+2025-05-18 01:00:19,932 - weather_scheduler - INFO - Updating weather data for Dehiwala
+2025-05-18 01:00:22,029 - weather_updater - INFO - Updated database for Dehiwala
+2025-05-18 01:00:22,029 - weather_scheduler - INFO - Updating weather data for Mount Lavinia
+2025-05-18 01:00:24,135 - weather_updater - INFO - Updated database for Mount Lavinia
+2025-05-18 01:00:24,135 - weather_scheduler - INFO - Updating weather data for Sri Jayawardenepura
+2025-05-18 01:00:26,025 - weather_updater - INFO - Updated database for Sri Jayawardenepura
+2025-05-18 01:00:26,025 - weather_scheduler - INFO - Updating weather data for Kotte
+2025-05-18 01:00:27,829 - weather_updater - INFO - Updated database for Kotte
+2025-05-18 01:00:27,829 - weather_scheduler - INFO - Updated 49/49 locations in batch
+2025-05-18 01:00:28,750 - weather_scheduler - INFO - Weather stats: 49/63 areas have weather data
+2025-05-18 01:00:28,750 - weather_scheduler - INFO - Oldest update is 0 days old from 2025-05-18T01:00:25.689966
+2025-05-18 01:00:28,750 - weather_scheduler - INFO - Weather batch update completed successfully
+2025-05-18 01:02:28,757 - weather_scheduler - INFO - Starting scheduled weather batch update (batch size: 58)
+2025-05-18 01:02:28,759 - weather_updater - INFO - Fetching locations that need updates...
+2025-05-18 01:02:29,967 - weather_updater - INFO - Found 0 locations needing update
+2025-05-18 01:02:29,967 - weather_scheduler - WARNING - No locations need updating. Forcing reset of timestamps.
+2025-05-18 01:02:29,967 - weather_scheduler - INFO - Resetting location update timestamps to trigger full refresh
+2025-05-18 01:02:30,999 - weather_scheduler - INFO - Reset 63 areas and 12 weather nodes
+2025-05-18 01:02:31,000 - weather_scheduler - INFO - Successfully reset timestamps. Fetching locations again.
+2025-05-18 01:02:31,000 - weather_updater - INFO - Fetching locations that need updates...
+2025-05-18 01:02:32,122 - weather_updater - INFO - Found 49 locations needing update
+2025-05-18 01:02:32,122 - weather_scheduler - INFO - Found 49 locations to update
+2025-05-18 01:02:32,122 - weather_scheduler - INFO - Updating weather data for Arugam Bay
+2025-05-18 01:02:36,408 - weather_updater - INFO - Updated database for Arugam Bay
+2025-05-18 01:02:36,408 - weather_scheduler - INFO - Updating weather data for Nuwara Eliya
+2025-05-18 01:02:40,758 - weather_updater - INFO - Updated database for Nuwara Eliya
+2025-05-18 01:02:40,760 - weather_scheduler - INFO - Updating weather data for Kandy
+2025-05-18 01:02:44,555 - weather_updater - INFO - Updated database for Kandy
+2025-05-18 01:02:44,555 - weather_scheduler - INFO - Updating weather data for Kataragama
+2025-05-18 01:02:48,372 - weather_updater - INFO - Updated database for Kataragama
+2025-05-18 01:02:48,372 - weather_scheduler - INFO - Updating weather data for Anuradhapura
+2025-05-18 01:02:51,457 - weather_updater - INFO - Updated database for Anuradhapura
+2025-05-18 01:02:51,457 - weather_scheduler - INFO - Updating weather data for Colombo
+2025-05-18 01:02:55,302 - weather_updater - INFO - Updated database for Colombo
+2025-05-18 01:02:55,302 - weather_scheduler - INFO - Updating weather data for Galle
+2025-05-18 01:03:00,126 - weather_updater - INFO - Updated database for Galle
+2025-05-18 01:03:00,126 - weather_scheduler - INFO - Updating weather data for Jaffna
+2025-05-18 01:03:03,008 - weather_updater - INFO - Updated database for Jaffna
+2025-05-18 01:03:03,009 - weather_scheduler - INFO - Updating weather data for Trincomalee
+2025-05-18 01:03:04,971 - weather_updater - INFO - Updated database for Trincomalee
+2025-05-18 01:03:04,971 - weather_scheduler - INFO - Updating weather data for Ella
+2025-05-18 01:03:07,547 - weather_updater - INFO - Updated database for Ella
+2025-05-18 01:03:07,548 - weather_scheduler - INFO - Updating weather data for Sigiriya
+2025-05-18 01:03:09,740 - weather_updater - INFO - Updated database for Sigiriya
+2025-05-18 01:03:09,740 - weather_scheduler - INFO - Updating weather data for Polonnaruwa
+2025-05-18 01:03:11,510 - weather_updater - INFO - Updated database for Polonnaruwa
+2025-05-18 01:03:11,511 - weather_scheduler - INFO - Updating weather data for Dambulla
+2025-05-18 01:03:13,336 - weather_updater - INFO - Updated database for Dambulla
+2025-05-18 01:03:13,336 - weather_scheduler - INFO - Updating weather data for Mirissa
+2025-05-18 01:03:15,236 - weather_updater - INFO - Updated database for Mirissa
+2025-05-18 01:03:15,236 - weather_scheduler - INFO - Updating weather data for Bentota
+2025-05-18 01:03:17,457 - weather_updater - INFO - Updated database for Bentota
+2025-05-18 01:03:17,458 - weather_scheduler - INFO - Updating weather data for Hikkaduwa
+2025-05-18 01:03:19,183 - weather_updater - INFO - Updated database for Hikkaduwa
+2025-05-18 01:03:19,183 - weather_scheduler - INFO - Updating weather data for Unawatuna
+2025-05-18 01:03:21,146 - weather_updater - INFO - Updated database for Unawatuna
+2025-05-18 01:03:21,146 - weather_scheduler - INFO - Updating weather data for Negombo
+2025-05-18 01:03:23,375 - weather_updater - INFO - Updated database for Negombo
+2025-05-18 01:03:23,375 - weather_scheduler - INFO - Updating weather data for Kalpitiya
+2025-05-18 01:03:25,251 - weather_updater - INFO - Updated database for Kalpitiya
+2025-05-18 01:03:25,252 - weather_scheduler - INFO - Updating weather data for Matara
+2025-05-18 01:03:27,272 - weather_updater - INFO - Updated database for Matara
+2025-05-18 01:03:27,272 - weather_scheduler - INFO - Updating weather data for Tangalle
+2025-05-18 01:03:29,138 - weather_updater - INFO - Updated database for Tangalle
+2025-05-18 01:03:29,138 - weather_scheduler - INFO - Updating weather data for Tissamaharama
+2025-05-18 01:03:31,481 - weather_updater - INFO - Updated database for Tissamaharama
+2025-05-18 01:03:31,481 - weather_scheduler - INFO - Updating weather data for Udawalawe
+2025-05-18 01:03:33,307 - weather_updater - INFO - Updated database for Udawalawe
+2025-05-18 01:03:33,307 - weather_scheduler - INFO - Updating weather data for Yala National Park
+2025-05-18 01:03:35,103 - weather_updater - INFO - Updated database for Yala National Park
+2025-05-18 01:03:35,104 - weather_scheduler - INFO - Updating weather data for Horton Plains
+2025-05-18 01:03:37,112 - weather_updater - INFO - Updated database for Horton Plains
+2025-05-18 01:03:37,112 - weather_scheduler - INFO - Updating weather data for Adam's Peak
+2025-05-18 01:03:38,919 - weather_updater - INFO - Updated database for Adam's Peak
+2025-05-18 01:03:38,920 - weather_scheduler - INFO - Updating weather data for Badulla
+2025-05-18 01:03:40,782 - weather_updater - INFO - Updated database for Badulla
+2025-05-18 01:03:40,782 - weather_scheduler - INFO - Updating weather data for Bandarawela
+2025-05-18 01:03:42,545 - weather_updater - INFO - Updated database for Bandarawela
+2025-05-18 01:03:42,545 - weather_scheduler - INFO - Updating weather data for Haputale
+2025-05-18 01:03:44,281 - weather_updater - INFO - Updated database for Haputale
+2025-05-18 01:03:44,281 - weather_scheduler - INFO - Updating weather data for Kitulgala
+2025-05-18 01:03:47,107 - weather_updater - INFO - Updated database for Kitulgala
+2025-05-18 01:03:47,107 - weather_scheduler - INFO - Updating weather data for Ratnapura
+2025-05-18 01:03:48,992 - weather_updater - INFO - Updated database for Ratnapura
+2025-05-18 01:03:48,992 - weather_scheduler - INFO - Updating weather data for Kurunegala
+2025-05-18 01:03:51,039 - weather_updater - INFO - Updated database for Kurunegala
+2025-05-18 01:03:51,040 - weather_scheduler - INFO - Updating weather data for Puttalam
+2025-05-18 01:03:53,112 - weather_updater - INFO - Updated database for Puttalam
+2025-05-18 01:03:53,112 - weather_scheduler - INFO - Updating weather data for Chilaw
+2025-05-18 01:03:53,965 - neo4j.io - ERROR - [#FF3C]  _: <CONNECTION> error: Failed to read from defunct connection ResolvedIPv4Address(('34.126.161.242', 7687)) (ResolvedIPv4Address(('34.126.161.242', 7687))): OSError('No data')
+2025-05-18 01:03:53,965 - neo4j.pool - ERROR - Unable to retrieve routing information
+2025-05-18 01:03:54,918 - weather_updater - INFO - Updated database for Chilaw
+2025-05-18 01:03:54,918 - weather_scheduler - INFO - Updating weather data for Mannar
+2025-05-18 01:03:56,327 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:03:56,952 - weather_updater - INFO - Updated database for Mannar
+2025-05-18 01:03:56,953 - weather_scheduler - INFO - Updating weather data for Vavuniya
+2025-05-18 01:03:58,776 - weather_updater - INFO - Updated database for Vavuniya
+2025-05-18 01:03:58,776 - weather_scheduler - INFO - Updating weather data for Mullaitivu
+2025-05-18 01:04:00,840 - weather_updater - INFO - Updated database for Mullaitivu
+2025-05-18 01:04:00,840 - weather_scheduler - INFO - Updating weather data for Batticaloa
+2025-05-18 01:04:03,102 - weather_updater - INFO - Updated database for Batticaloa
+2025-05-18 01:04:03,102 - weather_scheduler - INFO - Updating weather data for Ampara
+2025-05-18 01:04:05,252 - weather_updater - INFO - Updated database for Ampara
+2025-05-18 01:04:05,253 - weather_scheduler - INFO - Updating weather data for Monaragala
+2025-05-18 01:04:07,344 - weather_updater - INFO - Updated database for Monaragala
+2025-05-18 01:04:07,344 - weather_scheduler - INFO - Updating weather data for Hambantota
+2025-05-18 01:04:09,181 - weather_updater - INFO - Updated database for Hambantota
+2025-05-18 01:04:09,181 - weather_scheduler - INFO - Updating weather data for Embilipitiya
+2025-05-18 01:04:11,276 - weather_updater - INFO - Updated database for Embilipitiya
+2025-05-18 01:04:11,277 - weather_scheduler - INFO - Updating weather data for Kalutara
+2025-05-18 01:04:13,082 - weather_updater - INFO - Updated database for Kalutara
+2025-05-18 01:04:13,082 - weather_scheduler - INFO - Updating weather data for Panadura
+2025-05-18 01:04:15,135 - weather_updater - INFO - Updated database for Panadura
+2025-05-18 01:04:15,136 - weather_scheduler - INFO - Updating weather data for Moratuwa
+2025-05-18 01:04:22,358 - main - INFO - Starting application
+2025-05-18 01:04:22,358 - weather_scheduler - INFO - Starting weather scheduler
+2025-05-18 01:04:22,359 - weather_scheduler - INFO - Starting scheduler thread (running every 2 minutes)
+2025-05-18 01:04:22,359 - main - INFO - Weather scheduler started
+2025-05-18 01:04:22,359 - weather_scheduler - INFO - Resetting location update timestamps to trigger full refresh
+2025-05-18 01:04:23,561 - weather_scheduler - INFO - Reset 63 areas and 12 weather nodes
+2025-05-18 01:04:23,562 - weather_scheduler - INFO - Starting scheduled weather batch update (batch size: 58)
+2025-05-18 01:04:23,565 - weather_updater - INFO - Fetching locations that need updates...
+2025-05-18 01:04:24,701 - weather_updater - INFO - Found 49 locations needing update
+2025-05-18 01:04:24,701 - weather_scheduler - INFO - Found 49 locations to update
+2025-05-18 01:04:24,701 - weather_scheduler - INFO - Updating weather data for Arugam Bay
+2025-05-18 01:04:28,223 - weather_updater - INFO - Updated database for Arugam Bay
+2025-05-18 01:04:28,223 - weather_scheduler - INFO - Updating weather data for Nuwara Eliya
+2025-05-18 01:04:30,608 - weather_updater - INFO - Updated database for Nuwara Eliya
+2025-05-18 01:04:30,608 - weather_scheduler - INFO - Updating weather data for Kandy
+2025-05-18 01:04:33,546 - weather_updater - INFO - Updated database for Kandy
+2025-05-18 01:04:33,546 - weather_scheduler - INFO - Updating weather data for Kataragama
+2025-05-18 01:04:45,702 - main - INFO - Starting application
+2025-05-18 01:04:45,702 - weather_scheduler - INFO - Starting weather scheduler
+2025-05-18 01:04:45,704 - weather_scheduler - INFO - Starting scheduler thread (running every 2 minutes)
+2025-05-18 01:04:45,704 - weather_scheduler - INFO - Resetting location update timestamps to trigger full refresh
+2025-05-18 01:04:45,705 - main - INFO - Weather scheduler started
+2025-05-18 01:04:46,626 - weather_scheduler - INFO - Reset 63 areas and 12 weather nodes
+2025-05-18 01:04:46,627 - weather_scheduler - INFO - Starting scheduled weather batch update (batch size: 58)
+2025-05-18 01:04:46,629 - weather_updater - INFO - Fetching locations that need updates...
+2025-05-18 01:04:47,681 - weather_updater - INFO - Found 49 locations needing update
+2025-05-18 01:04:47,682 - weather_scheduler - INFO - Found 49 locations to update
+2025-05-18 01:04:47,682 - weather_scheduler - INFO - Updating weather data for Arugam Bay
+2025-05-18 01:04:49,956 - weather_updater - INFO - Updated database for Arugam Bay
+2025-05-18 01:04:49,956 - weather_scheduler - INFO - Updating weather data for Nuwara Eliya
+2025-05-18 01:04:51,873 - weather_updater - INFO - Updated database for Nuwara Eliya
+2025-05-18 01:04:51,875 - weather_scheduler - INFO - Updating weather data for Kandy
+2025-05-18 01:04:53,765 - weather_updater - INFO - Updated database for Kandy
+2025-05-18 01:04:53,765 - weather_scheduler - INFO - Updating weather data for Kataragama
+2025-05-18 01:04:55,722 - weather_updater - INFO - Updated database for Kataragama
+2025-05-18 01:04:55,722 - weather_scheduler - INFO - Updating weather data for Anuradhapura
+2025-05-18 01:04:58,552 - weather_updater - INFO - Updated database for Anuradhapura
+2025-05-18 01:04:58,552 - weather_scheduler - INFO - Updating weather data for Colombo
+2025-05-18 01:05:00,506 - weather_updater - INFO - Updated database for Colombo
+2025-05-18 01:05:00,507 - weather_scheduler - INFO - Updating weather data for Galle
+2025-05-18 01:05:02,699 - weather_updater - INFO - Updated database for Galle
+2025-05-18 01:05:02,699 - weather_scheduler - INFO - Updating weather data for Jaffna
+2025-05-18 01:05:05,167 - weather_updater - INFO - Updated database for Jaffna
+2025-05-18 01:05:05,168 - weather_scheduler - INFO - Updating weather data for Trincomalee
+2025-05-18 01:05:07,480 - weather_updater - INFO - Updated database for Trincomalee
+2025-05-18 01:05:07,481 - weather_scheduler - INFO - Updating weather data for Ella
+2025-05-18 01:05:09,933 - weather_updater - INFO - Updated database for Ella
+2025-05-18 01:05:09,933 - weather_scheduler - INFO - Updating weather data for Sigiriya
+2025-05-18 01:05:12,786 - weather_updater - INFO - Updated database for Sigiriya
+2025-05-18 01:05:12,786 - weather_scheduler - INFO - Updating weather data for Polonnaruwa
+2025-05-18 01:05:15,086 - weather_updater - INFO - Updated database for Polonnaruwa
+2025-05-18 01:05:15,086 - weather_scheduler - INFO - Updating weather data for Dambulla
+2025-05-18 01:05:17,155 - weather_updater - INFO - Updated database for Dambulla
+2025-05-18 01:05:17,155 - weather_scheduler - INFO - Updating weather data for Mirissa
+2025-05-18 01:05:19,261 - weather_updater - INFO - Updated database for Mirissa
+2025-05-18 01:05:19,261 - weather_scheduler - INFO - Updating weather data for Bentota
+2025-05-18 01:05:21,242 - weather_updater - INFO - Updated database for Bentota
+2025-05-18 01:05:21,242 - weather_scheduler - INFO - Updating weather data for Hikkaduwa
+2025-05-18 01:05:23,231 - weather_updater - INFO - Updated database for Hikkaduwa
+2025-05-18 01:05:23,231 - weather_scheduler - INFO - Updating weather data for Unawatuna
+2025-05-18 01:05:26,172 - weather_updater - INFO - Updated database for Unawatuna
+2025-05-18 01:05:26,172 - weather_scheduler - INFO - Updating weather data for Negombo
+2025-05-18 01:05:28,616 - weather_updater - INFO - Updated database for Negombo
+2025-05-18 01:05:28,618 - weather_scheduler - INFO - Updating weather data for Kalpitiya
+2025-05-18 01:05:30,832 - weather_updater - INFO - Updated database for Kalpitiya
+2025-05-18 01:05:30,832 - weather_scheduler - INFO - Updating weather data for Matara
+2025-05-18 01:05:32,946 - weather_updater - INFO - Updated database for Matara
+2025-05-18 01:05:32,946 - weather_scheduler - INFO - Updating weather data for Tangalle
+2025-05-18 01:05:35,265 - weather_updater - INFO - Updated database for Tangalle
+2025-05-18 01:05:35,266 - weather_scheduler - INFO - Updating weather data for Tissamaharama
+2025-05-18 01:05:37,481 - weather_updater - INFO - Updated database for Tissamaharama
+2025-05-18 01:05:37,481 - weather_scheduler - INFO - Updating weather data for Udawalawe
+2025-05-18 01:05:39,888 - weather_updater - INFO - Updated database for Udawalawe
+2025-05-18 01:05:39,889 - weather_scheduler - INFO - Updating weather data for Yala National Park
+2025-05-18 01:05:42,072 - weather_updater - INFO - Updated database for Yala National Park
+2025-05-18 01:05:42,072 - weather_scheduler - INFO - Updating weather data for Horton Plains
+2025-05-18 01:05:44,473 - weather_updater - INFO - Updated database for Horton Plains
+2025-05-18 01:05:44,473 - weather_scheduler - INFO - Updating weather data for Adam's Peak
+2025-05-18 01:05:46,792 - weather_updater - INFO - Updated database for Adam's Peak
+2025-05-18 01:05:46,792 - weather_scheduler - INFO - Updating weather data for Badulla
+2025-05-18 01:05:49,467 - weather_updater - INFO - Updated database for Badulla
+2025-05-18 01:05:49,468 - weather_scheduler - INFO - Updating weather data for Bandarawela
+2025-05-18 01:05:51,490 - weather_updater - INFO - Updated database for Bandarawela
+2025-05-18 01:05:51,490 - weather_scheduler - INFO - Updating weather data for Haputale
+2025-05-18 01:05:53,484 - weather_updater - INFO - Updated database for Haputale
+2025-05-18 01:05:53,484 - weather_scheduler - INFO - Updating weather data for Kitulgala
+2025-05-18 01:05:56,783 - weather_updater - INFO - Updated database for Kitulgala
+2025-05-18 01:05:56,783 - weather_scheduler - INFO - Updating weather data for Ratnapura
+2025-05-18 01:05:58,922 - weather_updater - INFO - Updated database for Ratnapura
+2025-05-18 01:05:58,923 - weather_scheduler - INFO - Updating weather data for Kurunegala
+2025-05-18 01:06:01,102 - weather_updater - INFO - Updated database for Kurunegala
+2025-05-18 01:06:01,102 - weather_scheduler - INFO - Updating weather data for Puttalam
+2025-05-18 01:06:03,341 - weather_updater - INFO - Updated database for Puttalam
+2025-05-18 01:06:03,341 - weather_scheduler - INFO - Updating weather data for Chilaw
+2025-05-18 01:06:05,489 - weather_updater - INFO - Updated database for Chilaw
+2025-05-18 01:06:05,489 - weather_scheduler - INFO - Updating weather data for Mannar
+2025-05-18 01:06:07,878 - weather_updater - INFO - Updated database for Mannar
+2025-05-18 01:06:07,878 - weather_scheduler - INFO - Updating weather data for Vavuniya
+2025-05-18 01:06:10,106 - weather_updater - INFO - Updated database for Vavuniya
+2025-05-18 01:06:10,107 - weather_scheduler - INFO - Updating weather data for Mullaitivu
+2025-05-18 01:06:12,837 - weather_updater - INFO - Updated database for Mullaitivu
+2025-05-18 01:06:12,838 - weather_scheduler - INFO - Updating weather data for Batticaloa
+2025-05-18 01:06:14,978 - weather_updater - INFO - Updated database for Batticaloa
+2025-05-18 01:06:14,979 - weather_scheduler - INFO - Updating weather data for Ampara
+2025-05-18 01:06:17,076 - weather_updater - INFO - Updated database for Ampara
+2025-05-18 01:06:17,077 - weather_scheduler - INFO - Updating weather data for Monaragala
+2025-05-18 01:06:19,096 - weather_updater - INFO - Updated database for Monaragala
+2025-05-18 01:06:19,096 - weather_scheduler - INFO - Updating weather data for Hambantota
+2025-05-18 01:06:21,662 - weather_updater - INFO - Updated database for Hambantota
+2025-05-18 01:06:21,662 - weather_scheduler - INFO - Updating weather data for Embilipitiya
+2025-05-18 01:06:25,008 - weather_updater - INFO - Updated database for Embilipitiya
+2025-05-18 01:06:25,008 - weather_scheduler - INFO - Updating weather data for Kalutara
+2025-05-18 01:06:27,330 - weather_updater - INFO - Updated database for Kalutara
+2025-05-18 01:06:27,331 - weather_scheduler - INFO - Updating weather data for Panadura
+2025-05-18 01:06:29,988 - weather_updater - INFO - Updated database for Panadura
+2025-05-18 01:06:29,988 - weather_scheduler - INFO - Updating weather data for Moratuwa
+2025-05-18 01:06:35,453 - weather_updater - INFO - Updated database for Moratuwa
+2025-05-18 01:06:35,454 - weather_scheduler - INFO - Updating weather data for Dehiwala
+2025-05-18 01:06:40,348 - weather_updater - INFO - Updated database for Dehiwala
+2025-05-18 01:06:40,348 - weather_scheduler - INFO - Updating weather data for Mount Lavinia
+2025-05-18 01:06:43,117 - weather_updater - INFO - Updated database for Mount Lavinia
+2025-05-18 01:06:43,117 - weather_scheduler - INFO - Updating weather data for Sri Jayawardenepura
+2025-05-18 01:06:45,227 - weather_updater - INFO - Updated database for Sri Jayawardenepura
+2025-05-18 01:06:45,227 - weather_scheduler - INFO - Updating weather data for Kotte
+2025-05-18 01:06:51,469 - weather_updater - INFO - Updated database for Kotte
+2025-05-18 01:06:51,469 - weather_scheduler - INFO - Updated 49/49 locations in batch
+2025-05-18 01:06:52,588 - weather_scheduler - INFO - Weather stats: 49/63 areas have weather data
+2025-05-18 01:06:52,588 - weather_scheduler - INFO - Oldest update is 0 days old from 2025-05-18T01:06:45.228256
+2025-05-18 01:06:52,588 - weather_scheduler - INFO - Weather batch update completed successfully
+2025-05-18 01:07:09,024 - main - INFO - Starting application
+2025-05-18 01:07:09,025 - weather_scheduler - INFO - Starting weather scheduler
+2025-05-18 01:07:09,026 - weather_scheduler - INFO - Starting scheduler thread (running every 2 minutes)
+2025-05-18 01:07:09,026 - weather_scheduler - INFO - Resetting location update timestamps to trigger full refresh
+2025-05-18 01:07:09,026 - main - INFO - Weather scheduler started
+2025-05-18 01:07:10,106 - weather_scheduler - INFO - Reset 63 areas and 12 weather nodes
+2025-05-18 01:07:10,107 - weather_scheduler - INFO - Starting scheduled weather batch update (batch size: 58)
+2025-05-18 01:07:10,109 - weather_updater - INFO - Fetching locations that need updates...
+2025-05-18 01:07:11,509 - weather_updater - INFO - Found 49 locations needing update
+2025-05-18 01:07:11,510 - weather_scheduler - INFO - Found 49 locations to update
+2025-05-18 01:07:11,510 - weather_scheduler - INFO - Updating weather data for Arugam Bay
+2025-05-18 01:07:13,812 - weather_updater - INFO - Updated database for Arugam Bay
+2025-05-18 01:07:13,812 - weather_scheduler - INFO - Updating weather data for Nuwara Eliya
+2025-05-18 01:07:15,996 - weather_updater - INFO - Updated database for Nuwara Eliya
+2025-05-18 01:07:15,996 - weather_scheduler - INFO - Updating weather data for Kandy
+2025-05-18 01:07:17,789 - weather_updater - INFO - Updated database for Kandy
+2025-05-18 01:07:17,789 - weather_scheduler - INFO - Updating weather data for Kataragama
+2025-05-18 01:07:19,731 - weather_updater - INFO - Updated database for Kataragama
+2025-05-18 01:07:19,731 - weather_scheduler - INFO - Updating weather data for Anuradhapura
+2025-05-18 01:07:21,661 - weather_updater - INFO - Updated database for Anuradhapura
+2025-05-18 01:07:21,661 - weather_scheduler - INFO - Updating weather data for Colombo
+2025-05-18 01:07:23,583 - weather_updater - INFO - Updated database for Colombo
+2025-05-18 01:07:23,584 - weather_scheduler - INFO - Updating weather data for Galle
+2025-05-18 01:07:25,416 - weather_updater - INFO - Updated database for Galle
+2025-05-18 01:07:25,416 - weather_scheduler - INFO - Updating weather data for Jaffna
+2025-05-18 01:07:27,708 - weather_updater - INFO - Updated database for Jaffna
+2025-05-18 01:07:27,708 - weather_scheduler - INFO - Updating weather data for Trincomalee
+2025-05-18 01:07:30,533 - weather_updater - INFO - Updated database for Trincomalee
+2025-05-18 01:07:30,533 - weather_scheduler - INFO - Updating weather data for Ella
+2025-05-18 01:07:32,272 - weather_updater - INFO - Updated database for Ella
+2025-05-18 01:07:32,272 - weather_scheduler - INFO - Updating weather data for Sigiriya
+2025-05-18 01:07:34,204 - weather_updater - INFO - Updated database for Sigiriya
+2025-05-18 01:07:34,204 - weather_scheduler - INFO - Updating weather data for Polonnaruwa
+2025-05-18 01:07:36,247 - weather_updater - INFO - Updated database for Polonnaruwa
+2025-05-18 01:07:36,248 - weather_scheduler - INFO - Updating weather data for Dambulla
+2025-05-18 01:07:38,747 - weather_updater - INFO - Updated database for Dambulla
+2025-05-18 01:07:38,747 - weather_scheduler - INFO - Updating weather data for Mirissa
+2025-05-18 01:07:40,950 - weather_updater - INFO - Updated database for Mirissa
+2025-05-18 01:07:40,951 - weather_scheduler - INFO - Updating weather data for Bentota
+2025-05-18 01:07:42,928 - weather_updater - INFO - Updated database for Bentota
+2025-05-18 01:07:42,928 - weather_scheduler - INFO - Updating weather data for Hikkaduwa
+2025-05-18 01:07:45,316 - weather_updater - INFO - Updated database for Hikkaduwa
+2025-05-18 01:07:45,317 - weather_scheduler - INFO - Updating weather data for Unawatuna
+2025-05-18 01:07:47,892 - weather_updater - INFO - Updated database for Unawatuna
+2025-05-18 01:07:47,892 - weather_scheduler - INFO - Updating weather data for Negombo
+2025-05-18 01:07:50,008 - weather_updater - INFO - Updated database for Negombo
+2025-05-18 01:07:50,009 - weather_scheduler - INFO - Updating weather data for Kalpitiya
+2025-05-18 01:07:51,962 - weather_updater - INFO - Updated database for Kalpitiya
+2025-05-18 01:07:51,962 - weather_scheduler - INFO - Updating weather data for Matara
+2025-05-18 01:07:53,656 - weather_updater - INFO - Updated database for Matara
+2025-05-18 01:07:53,656 - weather_scheduler - INFO - Updating weather data for Tangalle
+2025-05-18 01:07:55,500 - weather_updater - INFO - Updated database for Tangalle
+2025-05-18 01:07:55,500 - weather_scheduler - INFO - Updating weather data for Tissamaharama
+2025-05-18 01:07:57,323 - weather_updater - INFO - Updated database for Tissamaharama
+2025-05-18 01:07:57,324 - weather_scheduler - INFO - Updating weather data for Udawalawe
+2025-05-18 01:07:59,047 - weather_updater - INFO - Updated database for Udawalawe
+2025-05-18 01:07:59,047 - weather_scheduler - INFO - Updating weather data for Yala National Park
+2025-05-18 01:08:00,997 - weather_updater - INFO - Updated database for Yala National Park
+2025-05-18 01:08:00,997 - weather_scheduler - INFO - Updating weather data for Horton Plains
+2025-05-18 01:08:02,998 - weather_updater - INFO - Updated database for Horton Plains
+2025-05-18 01:08:02,998 - weather_scheduler - INFO - Updating weather data for Adam's Peak
+2025-05-18 01:08:05,269 - weather_updater - INFO - Updated database for Adam's Peak
+2025-05-18 01:08:05,269 - weather_scheduler - INFO - Updating weather data for Badulla
+2025-05-18 01:08:07,578 - weather_updater - INFO - Updated database for Badulla
+2025-05-18 01:08:07,578 - weather_scheduler - INFO - Updating weather data for Bandarawela
+2025-05-18 01:08:09,569 - weather_updater - INFO - Updated database for Bandarawela
+2025-05-18 01:08:09,569 - weather_scheduler - INFO - Updating weather data for Haputale
+2025-05-18 01:08:11,500 - weather_updater - INFO - Updated database for Haputale
+2025-05-18 01:08:11,500 - weather_scheduler - INFO - Updating weather data for Kitulgala
+2025-05-18 01:08:13,349 - weather_updater - INFO - Updated database for Kitulgala
+2025-05-18 01:08:13,350 - weather_scheduler - INFO - Updating weather data for Ratnapura
+2025-05-18 01:08:15,179 - weather_updater - INFO - Updated database for Ratnapura
+2025-05-18 01:08:15,179 - weather_scheduler - INFO - Updating weather data for Kurunegala
+2025-05-18 01:08:16,932 - weather_updater - INFO - Updated database for Kurunegala
+2025-05-18 01:08:16,932 - weather_scheduler - INFO - Updating weather data for Puttalam
+2025-05-18 01:08:19,022 - weather_updater - INFO - Updated database for Puttalam
+2025-05-18 01:08:19,022 - weather_scheduler - INFO - Updating weather data for Chilaw
+2025-05-18 01:08:20,787 - weather_updater - INFO - Updated database for Chilaw
+2025-05-18 01:08:20,787 - weather_scheduler - INFO - Updating weather data for Mannar
+2025-05-18 01:08:22,702 - weather_updater - INFO - Updated database for Mannar
+2025-05-18 01:08:22,702 - weather_scheduler - INFO - Updating weather data for Vavuniya
+2025-05-18 01:08:25,074 - weather_updater - INFO - Updated database for Vavuniya
+2025-05-18 01:08:25,074 - weather_scheduler - INFO - Updating weather data for Mullaitivu
+2025-05-18 01:08:26,762 - weather_updater - INFO - Updated database for Mullaitivu
+2025-05-18 01:08:26,762 - weather_scheduler - INFO - Updating weather data for Batticaloa
+2025-05-18 01:08:28,600 - weather_updater - INFO - Updated database for Batticaloa
+2025-05-18 01:08:28,600 - weather_scheduler - INFO - Updating weather data for Ampara
+2025-05-18 01:08:30,509 - weather_updater - INFO - Updated database for Ampara
+2025-05-18 01:08:30,509 - weather_scheduler - INFO - Updating weather data for Monaragala
+2025-05-18 01:08:32,287 - weather_updater - INFO - Updated database for Monaragala
+2025-05-18 01:08:32,287 - weather_scheduler - INFO - Updating weather data for Hambantota
+2025-05-18 01:08:34,191 - weather_updater - INFO - Updated database for Hambantota
+2025-05-18 01:08:34,191 - weather_scheduler - INFO - Updating weather data for Embilipitiya
+2025-05-18 01:08:37,132 - weather_updater - INFO - Updated database for Embilipitiya
+2025-05-18 01:08:37,132 - weather_scheduler - INFO - Updating weather data for Kalutara
+2025-05-18 01:08:48,761 - main - INFO - Starting application
+2025-05-18 01:08:48,762 - weather_scheduler - INFO - Starting weather scheduler
+2025-05-18 01:08:48,763 - weather_scheduler - INFO - Starting scheduler thread (running every 2 minutes)
+2025-05-18 01:08:48,763 - weather_scheduler - INFO - Resetting location update timestamps to trigger full refresh
+2025-05-18 01:08:48,765 - main - INFO - Weather scheduler started
+2025-05-18 01:08:49,952 - weather_scheduler - INFO - Reset 63 areas and 12 weather nodes
+2025-05-18 01:08:49,954 - weather_scheduler - INFO - Starting scheduled weather batch update (batch size: 58)
+2025-05-18 01:08:49,959 - weather_updater - INFO - Fetching locations that need updates...
+2025-05-18 01:08:51,647 - weather_updater - INFO - Found 49 locations needing update
+2025-05-18 01:08:51,647 - weather_scheduler - INFO - Found 49 locations to update
+2025-05-18 01:08:51,648 - weather_scheduler - INFO - Updating weather data for Arugam Bay
+2025-05-18 01:08:53,482 - weather_updater - INFO - Updated database for Arugam Bay
+2025-05-18 01:08:53,482 - weather_scheduler - INFO - Updating weather data for Nuwara Eliya
+2025-05-18 01:08:55,332 - weather_updater - INFO - Updated database for Nuwara Eliya
+2025-05-18 01:08:55,333 - weather_scheduler - INFO - Updating weather data for Kandy
+2025-05-18 01:08:56,544 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:08:57,359 - weather_updater - INFO - Updated database for Kandy
+2025-05-18 01:08:57,359 - weather_scheduler - INFO - Updating weather data for Kataragama
+2025-05-18 01:08:57,562 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:08:59,308 - weather_updater - INFO - Updated database for Kataragama
+2025-05-18 01:08:59,308 - weather_scheduler - INFO - Updating weather data for Anuradhapura
+2025-05-18 01:09:01,274 - weather_updater - INFO - Updated database for Anuradhapura
+2025-05-18 01:09:01,274 - weather_scheduler - INFO - Updating weather data for Colombo
+2025-05-18 01:09:03,173 - weather_updater - INFO - Updated database for Colombo
+2025-05-18 01:09:03,173 - weather_scheduler - INFO - Updating weather data for Galle
+2025-05-18 01:09:05,239 - weather_updater - INFO - Updated database for Galle
+2025-05-18 01:09:05,240 - weather_scheduler - INFO - Updating weather data for Jaffna
+2025-05-18 01:09:05,518 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:09:06,996 - weather_updater - INFO - Updated database for Jaffna
+2025-05-18 01:09:06,996 - weather_scheduler - INFO - Updating weather data for Trincomalee
+2025-05-18 01:09:08,889 - weather_updater - INFO - Updated database for Trincomalee
+2025-05-18 01:09:08,889 - weather_scheduler - INFO - Updating weather data for Ella
+2025-05-18 01:09:10,716 - weather_updater - INFO - Updated database for Ella
+2025-05-18 01:09:10,716 - weather_scheduler - INFO - Updating weather data for Sigiriya
+2025-05-18 01:09:12,682 - weather_updater - INFO - Updated database for Sigiriya
+2025-05-18 01:09:12,682 - weather_scheduler - INFO - Updating weather data for Polonnaruwa
+2025-05-18 01:09:14,932 - weather_updater - INFO - Updated database for Polonnaruwa
+2025-05-18 01:09:14,932 - weather_scheduler - INFO - Updating weather data for Dambulla
+2025-05-18 01:09:16,948 - weather_updater - INFO - Updated database for Dambulla
+2025-05-18 01:09:16,948 - weather_scheduler - INFO - Updating weather data for Mirissa
+2025-05-18 01:09:19,343 - weather_updater - INFO - Updated database for Mirissa
+2025-05-18 01:09:19,343 - weather_scheduler - INFO - Updating weather data for Bentota
+2025-05-18 01:09:21,206 - weather_updater - INFO - Updated database for Bentota
+2025-05-18 01:09:21,206 - weather_scheduler - INFO - Updating weather data for Hikkaduwa
+2025-05-18 01:09:23,420 - weather_updater - INFO - Updated database for Hikkaduwa
+2025-05-18 01:09:23,420 - weather_scheduler - INFO - Updating weather data for Unawatuna
+2025-05-18 01:09:25,808 - weather_updater - INFO - Updated database for Unawatuna
+2025-05-18 01:09:25,808 - weather_scheduler - INFO - Updating weather data for Negombo
+2025-05-18 01:09:27,860 - weather_updater - INFO - Updated database for Negombo
+2025-05-18 01:09:27,860 - weather_scheduler - INFO - Updating weather data for Kalpitiya
+2025-05-18 01:09:29,958 - weather_updater - INFO - Updated database for Kalpitiya
+2025-05-18 01:09:29,958 - weather_scheduler - INFO - Updating weather data for Matara
+2025-05-18 01:09:31,806 - weather_updater - INFO - Updated database for Matara
+2025-05-18 01:09:31,806 - weather_scheduler - INFO - Updating weather data for Tangalle
+2025-05-18 01:09:33,789 - weather_updater - INFO - Updated database for Tangalle
+2025-05-18 01:09:33,789 - weather_scheduler - INFO - Updating weather data for Tissamaharama
+2025-05-18 01:09:35,788 - weather_updater - INFO - Updated database for Tissamaharama
+2025-05-18 01:09:35,788 - weather_scheduler - INFO - Updating weather data for Udawalawe
+2025-05-18 01:09:37,846 - weather_updater - INFO - Updated database for Udawalawe
+2025-05-18 01:09:37,847 - weather_scheduler - INFO - Updating weather data for Yala National Park
+2025-05-18 01:09:41,329 - weather_updater - INFO - Updated database for Yala National Park
+2025-05-18 01:09:41,330 - weather_scheduler - INFO - Updating weather data for Horton Plains
+2025-05-18 01:09:43,334 - weather_updater - INFO - Updated database for Horton Plains
+2025-05-18 01:09:43,334 - weather_scheduler - INFO - Updating weather data for Adam's Peak
+2025-05-18 01:09:45,588 - weather_updater - INFO - Updated database for Adam's Peak
+2025-05-18 01:09:45,588 - weather_scheduler - INFO - Updating weather data for Badulla
+2025-05-18 01:09:47,628 - weather_updater - INFO - Updated database for Badulla
+2025-05-18 01:09:47,628 - weather_scheduler - INFO - Updating weather data for Bandarawela
+2025-05-18 01:09:49,448 - weather_updater - INFO - Updated database for Bandarawela
+2025-05-18 01:09:49,448 - weather_scheduler - INFO - Updating weather data for Haputale
+2025-05-18 01:09:51,589 - weather_updater - INFO - Updated database for Haputale
+2025-05-18 01:09:51,589 - weather_scheduler - INFO - Updating weather data for Kitulgala
+2025-05-18 01:10:04,053 - main - INFO - Starting application
+2025-05-18 01:10:04,054 - weather_scheduler - INFO - Starting weather scheduler
+2025-05-18 01:10:04,055 - weather_scheduler - INFO - Starting scheduler thread (running every 2 minutes)
+2025-05-18 01:10:04,055 - main - INFO - Weather scheduler started
+2025-05-18 01:10:04,056 - weather_scheduler - INFO - Resetting location update timestamps to trigger full refresh
+2025-05-18 01:10:05,342 - weather_scheduler - INFO - Reset 63 areas and 12 weather nodes
+2025-05-18 01:10:05,343 - weather_scheduler - INFO - Starting scheduled weather batch update (batch size: 58)
+2025-05-18 01:10:05,345 - weather_updater - INFO - Fetching locations that need updates...
+2025-05-18 01:10:06,365 - weather_updater - INFO - Found 49 locations needing update
+2025-05-18 01:10:06,365 - weather_scheduler - INFO - Found 49 locations to update
+2025-05-18 01:10:06,365 - weather_scheduler - INFO - Updating weather data for Arugam Bay
+2025-05-18 01:10:08,610 - weather_updater - INFO - Updated database for Arugam Bay
+2025-05-18 01:10:08,610 - weather_scheduler - INFO - Updating weather data for Nuwara Eliya
+2025-05-18 01:10:10,588 - weather_updater - INFO - Updated database for Nuwara Eliya
+2025-05-18 01:10:10,589 - weather_scheduler - INFO - Updating weather data for Kandy
+2025-05-18 01:10:12,348 - weather_updater - INFO - Updated database for Kandy
+2025-05-18 01:10:12,349 - weather_scheduler - INFO - Updating weather data for Kataragama
+2025-05-18 01:10:14,459 - weather_updater - INFO - Updated database for Kataragama
+2025-05-18 01:10:14,460 - weather_scheduler - INFO - Updating weather data for Anuradhapura
+2025-05-18 01:10:16,779 - weather_updater - INFO - Updated database for Anuradhapura
+2025-05-18 01:10:16,779 - weather_scheduler - INFO - Updating weather data for Colombo
+2025-05-18 01:10:16,990 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:10:17,888 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:10:18,553 - weather_updater - INFO - Updated database for Colombo
+2025-05-18 01:10:18,554 - weather_scheduler - INFO - Updating weather data for Galle
+2025-05-18 01:10:20,413 - weather_updater - INFO - Updated database for Galle
+2025-05-18 01:10:20,413 - weather_scheduler - INFO - Updating weather data for Jaffna
+2025-05-18 01:10:22,229 - weather_updater - INFO - Updated database for Jaffna
+2025-05-18 01:10:22,229 - weather_scheduler - INFO - Updating weather data for Trincomalee
+2025-05-18 01:10:24,137 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:10:24,549 - weather_updater - INFO - Updated database for Trincomalee
+2025-05-18 01:10:24,549 - weather_scheduler - INFO - Updating weather data for Ella
+2025-05-18 01:10:26,270 - weather_updater - INFO - Updated database for Ella
+2025-05-18 01:10:26,271 - weather_scheduler - INFO - Updating weather data for Sigiriya
+2025-05-18 01:10:27,957 - weather_updater - INFO - Updated database for Sigiriya
+2025-05-18 01:10:27,957 - weather_scheduler - INFO - Updating weather data for Polonnaruwa
+2025-05-18 01:10:29,869 - weather_updater - INFO - Updated database for Polonnaruwa
+2025-05-18 01:10:29,869 - weather_scheduler - INFO - Updating weather data for Dambulla
+2025-05-18 01:10:32,124 - weather_updater - INFO - Updated database for Dambulla
+2025-05-18 01:10:32,124 - weather_scheduler - INFO - Updating weather data for Mirissa
+2025-05-18 01:10:34,304 - weather_updater - INFO - Updated database for Mirissa
+2025-05-18 01:10:34,304 - weather_scheduler - INFO - Updating weather data for Bentota
+2025-05-18 01:10:36,275 - weather_updater - INFO - Updated database for Bentota
+2025-05-18 01:10:36,277 - weather_scheduler - INFO - Updating weather data for Hikkaduwa
+2025-05-18 01:10:38,201 - weather_updater - INFO - Updated database for Hikkaduwa
+2025-05-18 01:10:38,201 - weather_scheduler - INFO - Updating weather data for Unawatuna
+2025-05-18 01:10:40,458 - weather_updater - INFO - Updated database for Unawatuna
+2025-05-18 01:10:40,458 - weather_scheduler - INFO - Updating weather data for Negombo
+2025-05-18 01:10:42,541 - weather_updater - INFO - Updated database for Negombo
+2025-05-18 01:10:42,541 - weather_scheduler - INFO - Updating weather data for Kalpitiya
+2025-05-18 01:10:45,343 - weather_updater - INFO - Updated database for Kalpitiya
+2025-05-18 01:10:45,344 - weather_scheduler - INFO - Updating weather data for Matara
+2025-05-18 01:10:47,159 - weather_updater - INFO - Updated database for Matara
+2025-05-18 01:10:47,160 - weather_scheduler - INFO - Updating weather data for Tangalle
+2025-05-18 01:10:47,988 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:10:49,035 - weather_updater - INFO - Updated database for Tangalle
+2025-05-18 01:10:49,035 - weather_scheduler - INFO - Updating weather data for Tissamaharama
+2025-05-18 01:10:49,930 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:10:50,779 - weather_updater - INFO - Updated database for Tissamaharama
+2025-05-18 01:10:50,779 - weather_scheduler - INFO - Updating weather data for Udawalawe
+2025-05-18 01:10:52,755 - weather_updater - INFO - Updated database for Udawalawe
+2025-05-18 01:10:52,755 - weather_scheduler - INFO - Updating weather data for Yala National Park
+2025-05-18 01:10:54,538 - weather_updater - INFO - Updated database for Yala National Park
+2025-05-18 01:10:54,538 - weather_scheduler - INFO - Updating weather data for Horton Plains
+2025-05-18 01:10:56,614 - weather_updater - INFO - Updated database for Horton Plains
+2025-05-18 01:10:56,615 - weather_scheduler - INFO - Updating weather data for Adam's Peak
+2025-05-18 01:10:58,465 - weather_updater - INFO - Updated database for Adam's Peak
+2025-05-18 01:10:58,465 - weather_scheduler - INFO - Updating weather data for Badulla
+2025-05-18 01:11:00,333 - weather_updater - INFO - Updated database for Badulla
+2025-05-18 01:11:00,333 - weather_scheduler - INFO - Updating weather data for Bandarawela
+2025-05-18 01:11:02,113 - weather_updater - INFO - Updated database for Bandarawela
+2025-05-18 01:11:02,115 - weather_scheduler - INFO - Updating weather data for Haputale
+2025-05-18 01:11:04,253 - weather_updater - INFO - Updated database for Haputale
+2025-05-18 01:11:04,253 - weather_scheduler - INFO - Updating weather data for Kitulgala
+2025-05-18 01:11:05,155 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:11:06,144 - weather_updater - INFO - Updated database for Kitulgala
+2025-05-18 01:11:06,144 - weather_scheduler - INFO - Updating weather data for Ratnapura
+2025-05-18 01:11:07,630 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:11:07,974 - weather_updater - INFO - Updated database for Ratnapura
+2025-05-18 01:11:07,975 - weather_scheduler - INFO - Updating weather data for Kurunegala
+2025-05-18 01:11:10,284 - weather_updater - INFO - Updated database for Kurunegala
+2025-05-18 01:11:10,284 - weather_scheduler - INFO - Updating weather data for Puttalam
+2025-05-18 01:11:12,070 - weather_updater - INFO - Updated database for Puttalam
+2025-05-18 01:11:12,070 - weather_scheduler - INFO - Updating weather data for Chilaw
+2025-05-18 01:11:13,978 - weather_updater - INFO - Updated database for Chilaw
+2025-05-18 01:11:13,978 - weather_scheduler - INFO - Updating weather data for Mannar
+2025-05-18 01:11:15,939 - weather_updater - INFO - Updated database for Mannar
+2025-05-18 01:11:15,939 - weather_scheduler - INFO - Updating weather data for Vavuniya
+2025-05-18 01:11:17,629 - weather_updater - INFO - Updated database for Vavuniya
+2025-05-18 01:11:17,629 - weather_scheduler - INFO - Updating weather data for Mullaitivu
+2025-05-18 01:11:19,549 - weather_updater - INFO - Updated database for Mullaitivu
+2025-05-18 01:11:19,549 - weather_scheduler - INFO - Updating weather data for Batticaloa
+2025-05-18 01:11:21,499 - weather_updater - INFO - Updated database for Batticaloa
+2025-05-18 01:11:21,499 - weather_scheduler - INFO - Updating weather data for Ampara
+2025-05-18 01:11:23,344 - weather_updater - INFO - Updated database for Ampara
+2025-05-18 01:11:23,344 - weather_scheduler - INFO - Updating weather data for Monaragala
+2025-05-18 01:11:25,555 - weather_updater - INFO - Updated database for Monaragala
+2025-05-18 01:11:25,555 - weather_scheduler - INFO - Updating weather data for Hambantota
+2025-05-18 01:11:27,114 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:11:27,389 - weather_updater - INFO - Updated database for Hambantota
+2025-05-18 01:11:27,389 - weather_scheduler - INFO - Updating weather data for Embilipitiya
+2025-05-18 01:11:29,244 - weather_updater - INFO - Updated database for Embilipitiya
+2025-05-18 01:11:29,244 - weather_scheduler - INFO - Updating weather data for Kalutara
+2025-05-18 01:11:29,770 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:11:30,909 - weather_updater - INFO - Updated database for Kalutara
+2025-05-18 01:11:30,910 - weather_scheduler - INFO - Updating weather data for Panadura
+2025-05-18 01:11:32,854 - weather_updater - INFO - Updated database for Panadura
+2025-05-18 01:11:32,854 - weather_scheduler - INFO - Updating weather data for Moratuwa
+2025-05-18 01:11:34,779 - weather_updater - INFO - Updated database for Moratuwa
+2025-05-18 01:11:34,779 - weather_scheduler - INFO - Updating weather data for Dehiwala
+2025-05-18 01:11:36,749 - weather_updater - INFO - Updated database for Dehiwala
+2025-05-18 01:11:36,749 - weather_scheduler - INFO - Updating weather data for Mount Lavinia
+2025-05-18 01:11:38,750 - weather_updater - INFO - Updated database for Mount Lavinia
+2025-05-18 01:11:38,750 - weather_scheduler - INFO - Updating weather data for Sri Jayawardenepura
+2025-05-18 01:11:40,729 - weather_updater - INFO - Updated database for Sri Jayawardenepura
+2025-05-18 01:11:40,729 - weather_scheduler - INFO - Updating weather data for Kotte
+2025-05-18 01:11:42,689 - weather_updater - INFO - Updated database for Kotte
+2025-05-18 01:11:42,689 - weather_scheduler - INFO - Updated 49/49 locations in batch
+2025-05-18 01:11:43,479 - weather_scheduler - INFO - Weather stats: 49/63 areas have weather data
+2025-05-18 01:11:43,479 - weather_scheduler - INFO - Oldest update is 0 days old from 2025-05-18T01:11:40.729766
+2025-05-18 01:11:43,480 - weather_scheduler - INFO - Weather batch update completed successfully
+2025-05-18 01:11:53,149 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:11:55,720 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:13:37,480 - main - INFO - Starting application
+2025-05-18 01:13:37,481 - weather_scheduler - INFO - Starting weather scheduler
+2025-05-18 01:13:37,482 - weather_scheduler - INFO - Starting scheduler thread (running every 2 minutes)
+2025-05-18 01:13:37,482 - main - INFO - Weather scheduler started
+2025-05-18 01:13:37,482 - weather_scheduler - INFO - Resetting location update timestamps to trigger full refresh
+2025-05-18 01:13:38,373 - weather_scheduler - INFO - Reset 63 areas and 12 weather nodes
+2025-05-18 01:13:38,374 - weather_scheduler - INFO - Starting scheduled weather batch update (batch size: 58)
+2025-05-18 01:13:38,376 - weather_updater - INFO - Fetching locations that need updates...
+2025-05-18 01:13:39,288 - weather_updater - INFO - Found 49 locations needing update
+2025-05-18 01:13:39,289 - weather_scheduler - INFO - Found 49 locations to update
+2025-05-18 01:13:39,289 - weather_scheduler - INFO - Updating weather data for Arugam Bay
+2025-05-18 01:13:41,539 - weather_updater - INFO - Updated database for Arugam Bay
+2025-05-18 01:13:41,539 - weather_scheduler - INFO - Updating weather data for Nuwara Eliya
+2025-05-18 01:13:43,551 - weather_updater - INFO - Updated database for Nuwara Eliya
+2025-05-18 01:13:43,551 - weather_scheduler - INFO - Updating weather data for Kandy
+2025-05-18 01:13:45,380 - weather_updater - INFO - Updated database for Kandy
+2025-05-18 01:13:45,380 - weather_scheduler - INFO - Updating weather data for Kataragama
+2025-05-18 01:13:46,003 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:13:46,921 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:13:47,269 - weather_updater - INFO - Updated database for Kataragama
+2025-05-18 01:13:47,269 - weather_scheduler - INFO - Updating weather data for Anuradhapura
+2025-05-18 01:13:49,229 - weather_updater - INFO - Updated database for Anuradhapura
+2025-05-18 01:13:49,230 - weather_scheduler - INFO - Updating weather data for Colombo
+2025-05-18 01:13:51,005 - weather_updater - INFO - Updated database for Colombo
+2025-05-18 01:13:51,005 - weather_scheduler - INFO - Updating weather data for Galle
+2025-05-18 01:13:52,320 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:13:53,221 - weather_updater - INFO - Updated database for Galle
+2025-05-18 01:13:53,221 - weather_scheduler - INFO - Updating weather data for Jaffna
+2025-05-18 01:13:55,156 - weather_updater - INFO - Updated database for Jaffna
+2025-05-18 01:13:55,156 - weather_scheduler - INFO - Updating weather data for Trincomalee
+2025-05-18 01:13:56,913 - weather_updater - INFO - Updated database for Trincomalee
+2025-05-18 01:13:56,913 - weather_scheduler - INFO - Updating weather data for Ella
+2025-05-18 01:13:58,768 - weather_updater - INFO - Updated database for Ella
+2025-05-18 01:13:58,768 - weather_scheduler - INFO - Updating weather data for Sigiriya
+2025-05-18 01:14:00,710 - weather_updater - INFO - Updated database for Sigiriya
+2025-05-18 01:14:00,711 - weather_scheduler - INFO - Updating weather data for Polonnaruwa
+2025-05-18 01:14:02,771 - weather_updater - INFO - Updated database for Polonnaruwa
+2025-05-18 01:14:02,772 - weather_scheduler - INFO - Updating weather data for Dambulla
+2025-05-18 01:14:04,595 - weather_updater - INFO - Updated database for Dambulla
+2025-05-18 01:14:04,595 - weather_scheduler - INFO - Updating weather data for Mirissa
+2025-05-18 01:14:06,389 - weather_updater - INFO - Updated database for Mirissa
+2025-05-18 01:14:06,389 - weather_scheduler - INFO - Updating weather data for Bentota
+2025-05-18 01:14:09,127 - weather_updater - INFO - Updated database for Bentota
+2025-05-18 01:14:09,127 - weather_scheduler - INFO - Updating weather data for Hikkaduwa
+2025-05-18 01:14:11,477 - weather_updater - INFO - Updated database for Hikkaduwa
+2025-05-18 01:14:11,477 - weather_scheduler - INFO - Updating weather data for Unawatuna
+2025-05-18 01:14:12,005 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:14:13,253 - weather_updater - INFO - Updated database for Unawatuna
+2025-05-18 01:14:13,253 - weather_scheduler - INFO - Updating weather data for Negombo
+2025-05-18 01:14:14,614 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:14:15,150 - weather_updater - INFO - Updated database for Negombo
+2025-05-18 01:14:15,150 - weather_scheduler - INFO - Updating weather data for Kalpitiya
+2025-05-18 01:14:17,336 - weather_updater - INFO - Updated database for Kalpitiya
+2025-05-18 01:14:17,336 - weather_scheduler - INFO - Updating weather data for Matara
+2025-05-18 01:14:19,230 - weather_updater - INFO - Updated database for Matara
+2025-05-18 01:14:19,230 - weather_scheduler - INFO - Updating weather data for Tangalle
+2025-05-18 01:14:20,910 - weather_updater - INFO - Updated database for Tangalle
+2025-05-18 01:14:20,910 - weather_scheduler - INFO - Updating weather data for Tissamaharama
+2025-05-18 01:14:22,757 - weather_updater - INFO - Updated database for Tissamaharama
+2025-05-18 01:14:22,757 - weather_scheduler - INFO - Updating weather data for Udawalawe
+2025-05-18 01:14:24,845 - weather_updater - INFO - Updated database for Udawalawe
+2025-05-18 01:14:24,846 - weather_scheduler - INFO - Updating weather data for Yala National Park
+2025-05-18 01:14:26,591 - weather_updater - INFO - Updated database for Yala National Park
+2025-05-18 01:14:26,591 - weather_scheduler - INFO - Updating weather data for Horton Plains
+2025-05-18 01:14:28,351 - weather_updater - INFO - Updated database for Horton Plains
+2025-05-18 01:14:28,351 - weather_scheduler - INFO - Updating weather data for Adam's Peak
+2025-05-18 01:14:30,770 - weather_updater - INFO - Updated database for Adam's Peak
+2025-05-18 01:14:30,770 - weather_scheduler - INFO - Updating weather data for Badulla
+2025-05-18 01:14:32,620 - weather_updater - INFO - Updated database for Badulla
+2025-05-18 01:14:32,620 - weather_scheduler - INFO - Updating weather data for Bandarawela
+2025-05-18 01:14:32,910 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:14:34,205 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:14:34,722 - weather_updater - INFO - Updated database for Bandarawela
+2025-05-18 01:14:34,722 - weather_scheduler - INFO - Updating weather data for Haputale
+2025-05-18 01:14:36,524 - weather_updater - INFO - Updated database for Haputale
+2025-05-18 01:14:36,525 - weather_scheduler - INFO - Updating weather data for Kitulgala
+2025-05-18 01:14:36,854 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:14:38,448 - weather_updater - INFO - Updated database for Kitulgala
+2025-05-18 01:14:38,448 - weather_scheduler - INFO - Updating weather data for Ratnapura
+2025-05-18 01:14:40,370 - weather_updater - INFO - Updated database for Ratnapura
+2025-05-18 01:14:40,371 - weather_scheduler - INFO - Updating weather data for Kurunegala
+2025-05-18 01:14:42,390 - weather_updater - INFO - Updated database for Kurunegala
+2025-05-18 01:14:42,390 - weather_scheduler - INFO - Updating weather data for Puttalam
+2025-05-18 01:14:44,230 - weather_updater - INFO - Updated database for Puttalam
+2025-05-18 01:14:44,230 - weather_scheduler - INFO - Updating weather data for Chilaw
+2025-05-18 01:14:46,049 - weather_updater - INFO - Updated database for Chilaw
+2025-05-18 01:14:46,050 - weather_scheduler - INFO - Updating weather data for Mannar
+2025-05-18 01:14:47,972 - weather_updater - INFO - Updated database for Mannar
+2025-05-18 01:14:47,972 - weather_scheduler - INFO - Updating weather data for Vavuniya
+2025-05-18 01:14:49,641 - weather_updater - INFO - Updated database for Vavuniya
+2025-05-18 01:14:49,641 - weather_scheduler - INFO - Updating weather data for Mullaitivu
+2025-05-18 01:14:51,568 - weather_updater - INFO - Updated database for Mullaitivu
+2025-05-18 01:14:51,569 - weather_scheduler - INFO - Updating weather data for Batticaloa
+2025-05-18 01:14:53,311 - weather_updater - INFO - Updated database for Batticaloa
+2025-05-18 01:14:53,311 - weather_scheduler - INFO - Updating weather data for Ampara
+2025-05-18 01:14:54,001 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:14:55,000 - weather_updater - INFO - Updated database for Ampara
+2025-05-18 01:14:55,000 - weather_scheduler - INFO - Updating weather data for Monaragala
+2025-05-18 01:14:56,677 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-18 01:14:56,950 - weather_updater - INFO - Updated database for Monaragala
+2025-05-18 01:14:56,951 - weather_scheduler - INFO - Updating weather data for Hambantota
+2025-05-18 01:14:58,877 - weather_updater - INFO - Updated database for Hambantota
+2025-05-18 01:14:58,877 - weather_scheduler - INFO - Updating weather data for Embilipitiya
+2025-05-18 01:15:00,819 - weather_updater - INFO - Updated database for Embilipitiya
+2025-05-18 01:15:00,819 - weather_scheduler - INFO - Updating weather data for Kalutara
+2025-05-18 01:15:02,548 - weather_updater - INFO - Updated database for Kalutara
+2025-05-18 01:15:02,548 - weather_scheduler - INFO - Updating weather data for Panadura
+2025-05-18 01:15:04,400 - weather_updater - INFO - Updated database for Panadura
+2025-05-18 01:15:04,400 - weather_scheduler - INFO - Updating weather data for Moratuwa
+2025-05-18 01:15:06,465 - weather_updater - INFO - Updated database for Moratuwa
+2025-05-18 01:15:06,466 - weather_scheduler - INFO - Updating weather data for Dehiwala
+2025-05-18 01:15:08,390 - weather_updater - INFO - Updated database for Dehiwala
+2025-05-18 01:15:08,390 - weather_scheduler - INFO - Updating weather data for Mount Lavinia
+2025-05-18 01:15:10,125 - weather_updater - INFO - Updated database for Mount Lavinia
+2025-05-18 01:15:10,125 - weather_scheduler - INFO - Updating weather data for Sri Jayawardenepura
+2025-05-18 01:15:12,065 - weather_updater - INFO - Updated database for Sri Jayawardenepura
+2025-05-18 01:15:12,065 - weather_scheduler - INFO - Updating weather data for Kotte
+2025-05-18 01:15:13,963 - weather_updater - INFO - Updated database for Kotte
+2025-05-18 01:15:13,963 - weather_scheduler - INFO - Updated 49/49 locations in batch
+2025-05-18 01:15:14,807 - weather_scheduler - INFO - Weather stats: 49/63 areas have weather data
+2025-05-18 01:15:14,807 - weather_scheduler - INFO - Oldest update is 0 days old from 2025-05-18T01:15:12.065896
+2025-05-18 01:15:14,807 - weather_scheduler - INFO - Weather batch update completed successfully
