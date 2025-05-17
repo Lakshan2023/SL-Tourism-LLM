@@ -304,6 +304,13 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                         
                         when providing whether try to provide weather in current month always and take all the weather details that you have in specific area.
                         
+                        if travelling distance is asked used this to get the distance between two areas. 
+                        
+                          MATCH (source: `Area` { `Areas`: row.`Location_1` })
+                          MATCH (target: `Area` { `Areas`: row.`Location_2` })
+                          MERGE (source)-[r: `HAS_DISTANCE`]->(target)
+                          SET r.`Distance_in_km` = toFloat(trim(row.`Distance_in_km`))
+                        
                         # Strictly follow this setting prompts as well
                         {settings_prompt}  
                         
