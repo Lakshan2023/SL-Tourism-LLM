@@ -452,12 +452,6 @@ db_structure = """
         max_temp  
         precip_prob
         
-        please consider them as well when user ask about weather.when providing weather details please mention the location name.
-        
-        when user ask about the emergency details please provide all details in the Country node, but if they ask about specific area related details provide that areas police station and hospital details.
-        
-        consider all the places visting, accomadation, restaurants are affordable and budget friendly.
-        
 """
 
 settings_prompt = """
