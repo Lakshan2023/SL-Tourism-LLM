@@ -307,6 +307,8 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                         *** Very very important: Please consider the chat history as well ***
                         
                         When looking at the history, please consider the highest question number as the last question, for example question 3 should have priority more than question 2.
+                        
+                        You can provide answers only to the sri lankan context, do not provide answers for other contexts please say that you can provide answers only on the sri lankan context if user ask a question in other domains.
                         """
 
     retry_count = 0  # Initialize retry count
