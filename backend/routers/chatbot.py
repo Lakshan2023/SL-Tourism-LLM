@@ -110,7 +110,7 @@ def find_similar_questions_cached(user_query: str, top_n: int = 5) -> Tuple[tupl
 
 
 def generate_query_optimized(user_question: str, session_id: str, question: Question) -> str:
-    # Create a cache key based on the question and settings
+    # Create a cache key based on the question and settings2
     cache_key = hashlib.md5(
         f"{user_question}_{question.settings.json()}".encode()
     ).hexdigest()
