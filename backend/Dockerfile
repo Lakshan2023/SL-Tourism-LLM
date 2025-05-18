@@ -1,25 +1,5 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim-buster
-
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Set work directory
+FROM python:3.9
 WORKDIR /app
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y build-essential
-
-# Install python dependencies
-COPY requirements.txt /app/
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-# Copy all project files
-COPY . /app/
-
-EXPOSE 8000
-
-# Run the application
+COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
