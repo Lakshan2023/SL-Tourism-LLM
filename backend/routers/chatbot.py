@@ -62,7 +62,7 @@ uri = os.getenv("NEO4J_URI")
 username = os.getenv("NEO4J_USERNAME")
 password = os.getenv("NEO4J_PASSWORD")
 openai_api_key = os.getenv("OPENAI_API_KEY")
-deployment = os.getenv("DEPLOYMENT_NAME", "gpt-3.5-turbo")
+deployment = os.getenv("DEPLOYMENT_NAME", "gpt-4.1-2025-04-14")
 db_structure_prompt = db_structure
 settings_prompt = settings_prompt
 client = OpenAI(api_key=openai_api_key)
@@ -164,17 +164,22 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
         answers = chat_histories[session_id]["answers"]  # Get the answers from the chat histories
         # Get the last 3 items, excluding the current question
         for i in range(max(len(questions) - 4, 0), len(questions) - 1):
+            print(answers[i])
             recent_history.append({
                 "question": questions[i],
-                "answer": answers[i]
+                "answer":  answers[i]
             })
+
+    print(recent_history)
 
     # Format the conversation history
     history_text = "No previous conversation." if not recent_history else "\n".join([
-        f"Previous Question: {item['question']}\n"
-        f"Previous Answer: {item['answer']}\n"
-        for item in recent_history
+        f"Previous Question {item + 1}: {recent_history[item]['question']}\n"
+        f"Previous Answer {item + 1}: {recent_history[item]['answer']}\n"
+        for item in range(0, len(recent_history))
     ])
+
+    print("Recent History :\n\n", history_text)
 
     # Define template as a constant
     TEMPLATE_CYPHER = {
@@ -202,11 +207,11 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
 
     # Move the prompt template outside the function
     QUERY_CHAT_PROMPT = """Role and Context:
-                        You are TourMate, an AI assistant that helps users with travel-related queries about Sri Lanka.
+                        You are TourMate, an AI assistant that helps users with travel-related queries about Sri Lanka or hotels, accomadations, places, emergency, hotel related details.
+            
                         
-                        Recent Conversation History: (This contains the recent questions user asked)
-                        -------------------------
-                        {history_text}
+                        You can provide answers only to the sri lankan context, do not provide answers for other contexts please say that you can provide answers only on the sri lankan context if user ask a question in other domains.
+                        
                         
                          Database Context:
                         ---------------
@@ -252,6 +257,7 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                         ⚠️ DO NOT use single quotes in the JSON response
                         ⚠️ DO NOT include newlines within the values
                         ⚠️ Ensure the response is valid JSON format
+                        ⚠️ If user asked a question about place and all when you generate the cypher query refer key words in lower case and use them in the cypher query.
                         
                         Response Guidelines:
                         ------------------
@@ -290,8 +296,40 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
                         - Relevant emojis is Must in the text explanation and never mention that you refer to database by querying. 
                         -  Work as TravelGuru when providing responses.
                         
+                        please consider them as well when user ask about weather.when providing weather details please mention the location name.
+        
+                        when user ask about the emergency details please provide all details in the Country node, but if they ask about specific area related details provide that areas police station and hospital details.
+                        
+                        consider all the places visting, accomadation, restaurants are affordable and budget friendly.
+                        
+                        when providing whether try to provide weather in current month always and take all the weather details that you have in specific area.
+                        
+                        if travelling distance is asked used this to get the distance between two areas. 
+                        
+                          MATCH (source: 'Area' {{ put area name is simple}})
+                          MATCH (target: 'Area' {{put area name is simple}})
+                          MERGE (source)-[r: HAS_DISTANCE]->(target)
+                          SET r.Distance_in_km = toFloat(trim(row.Distance_in_km))
+                          
+                          - put required values to this query and use it to get the distance between two areas.
+                          - when you generate the query check the name os the Area in both upper and lower case .
+                        
                         # Strictly follow this setting prompts as well
                         {settings_prompt}  
+                        
+                         Recent Conversation History: (This contains the recent questions user asked)
+                        -------------------------
+                         chat history: {history_text}
+                         
+                         user question: {question}
+                         
+                        Please consider if the users question is relevant to the chat history, if it is relevant, 
+                        please provide the answer based on the chat history.If it is not relevant, please ignore the chat history.
+                        Example: If user has asked a particular location and ask a question without mentioning a new location please provide the answer based on the previous questions location.
+                        
+                        *** Very very important: Please consider the chat history as well ***
+                        
+                        When looking at the history, please consider the highest question number as the last question, for example question 3 should have priority more than question 2.
                         """
 
     retry_count = 0  # Initialize retry count
@@ -318,10 +356,15 @@ def generate_query(user_question: str, session_id: str, question: Question) -> s
         settings_prompt=settings_prompt
     )
 
+    print("Formatted Prompt :\n\n", formatted_prompt)
+
+
+
 
     # Retry loop for API call
     while retry_count < max_retries:
         try:
+            print("Tried")
             # Construct chat messages
             chat_messages = [
                 {
